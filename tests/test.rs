@@ -34,6 +34,20 @@ mod tests {
 }
 
 #[test]
+fn test_combination() {
+    let first_regex = human_regex::HumanRegex::new().exactly(4, human_regex::DIGIT);
+    let check_match = human_regex::HumanRegex::new()
+        .begin()
+        .text(first_regex.to_string())
+        .text("-")
+        .exactly(2, human_regex::DIGIT)
+        .text("-")
+        .exactly(2, human_regex::DIGIT)
+        .end();
+    assert!(check_match.is_match("2014-01-01"))
+}
+
+#[test]
 #[should_panic]
 fn match_date_should_panic() {
     let check_match = human_regex::HumanRegex::new()

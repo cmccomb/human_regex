@@ -26,8 +26,9 @@
 
 use regex::Regex;
 use std::fmt;
-use std::fmt::Formatter;
 
+/// A constant for matching any character (except for \n)
+pub const ANY: &str = r".";
 /// A constant for the digit character class (i.e., the digits 0 through 9)
 pub const DIGIT: &str = r"\d";
 /// A constant for the non-digit character class (i.e., everything BUT the digits 0-9)
@@ -57,8 +58,27 @@ impl HumanRegex {
     }
 
     /// Match exactly _n_ of a certain target
-    pub fn exactly(&self, n: u8, target: &str) -> Self {
+    pub fn exactly<T>(&self, n: u8, target: T) -> Self
+    where
+        T: Into<String> + fmt::Display,
+    {
         let new_regex = format!("{}{}{{{}}}", self.regex_string, target, n);
+        HumanRegex {
+            regex_string: new_regex,
+        }
+    }
+
+    /// Match at least _n_ of a certain target
+    pub fn at_least(&self, n: u8, target: &str) -> Self {
+        let new_regex = format!("{}{}{{{},}}", self.regex_string, target, n);
+        HumanRegex {
+            regex_string: new_regex,
+        }
+    }
+
+    /// Match at least _n_ and at most _m_ of a certain target
+    pub fn at_least_at_most(&self, n: u8, m: u8, target: &str) -> Self {
+        let new_regex = format!("{}{}{{{},{}}}", self.regex_string, target, n, m);
         HumanRegex {
             regex_string: new_regex,
         }
@@ -71,16 +91,28 @@ impl HumanRegex {
             regex_string: new_regex,
         }
     }
+
     /// Match zero or more of a certain target
-    pub fn zero_or_more(&self, n: u8, target: &str) -> Self {
+    pub fn zero_or_more(&self, target: &str) -> Self {
         let new_regex = format!("{}{}*", self.regex_string, target);
         HumanRegex {
             regex_string: new_regex,
         }
     }
 
+    /// Match zero or one of a certain target
+    pub fn zero_or_one(&self, target: &str) -> Self {
+        let new_regex = format!("{}{}?", self.regex_string, target);
+        HumanRegex {
+            regex_string: new_regex,
+        }
+    }
+
     /// Add text directly to the match string
-    pub fn text(&self, text: &str) -> Self {
+    pub fn text<T>(&self, text: T) -> Self
+    where
+        T: Into<String> + fmt::Display,
+    {
         let new_regex = format!("{}{}", self.regex_string, text);
         HumanRegex {
             regex_string: new_regex,
@@ -110,9 +142,9 @@ impl HumanRegex {
         }
     }
 
-    /// Returns the current state of the constructed regex string
-    pub fn get_regex_string(&self) -> &String {
-        return &self.regex_string;
+    /// Returns the current state of the constructed regex string as a Regex object
+    pub fn get_regex(&self) -> Regex {
+        Regex::new(&*self.regex_string).unwrap()
     }
 
     /// Checks whether or not a string matches with the constructed regex
@@ -123,7 +155,7 @@ impl HumanRegex {
 }
 
 impl fmt::Display for HumanRegex {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.regex_string)
     }
 }
