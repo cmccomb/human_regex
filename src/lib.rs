@@ -9,6 +9,19 @@
 
 use regex::Regex;
 
+/// A unit struct for the digit character class (i.e., the digits 0 through 9)
+struct Digit;
+/// A unit struct for the non-digit character class (i.e., everything BUT the digits 0-9)
+struct NonDigit;
+/// A unit struct for the word character class (i.e., all alphanumeric characters plus underscore)
+struct Word;
+/// A unit struct for the non-word character class (i.e., everything BUT the alphanumeric characters plus underscore)
+struct NonWord;
+/// A unit structure for the whitespace character class (i.e., space and tab)
+struct Whitespace;
+/// A unit structure for the whitespace character class (i.e., everything BUT space and tab)
+struct NonWhitespace;
+
 /// The HumanRegex struct which maintains and updates the regex string
 #[derive(Default)]
 pub struct HumanRegex {
