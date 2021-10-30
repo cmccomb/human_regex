@@ -1,3 +1,7 @@
-/target
+/target/debug
+/target/package
+/target/tmp
+/target/*.json
+/target/*.TAG
 Cargo.lock
 .idea/
