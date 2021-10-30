@@ -25,6 +25,8 @@
 //!Specifically, this chunk of code would yield the regex `^\d{4}-\d{2}-\d{2}$`, which is exactly what we want!
 
 use regex::Regex;
+use std::fmt;
+use std::fmt::Formatter;
 
 /// A constant for the digit character class (i.e., the digits 0 through 9)
 pub const DIGIT: &str = r"\d";
@@ -40,7 +42,7 @@ pub const WHITESPACE: &str = r"\t";
 pub const NON_WHITESPACE: &str = r"\T";
 
 /// The HumanRegex struct which maintains and updates the regex string
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct HumanRegex {
     /// The internally-maintained true regex string
     pub regex_string: String,
@@ -54,9 +56,24 @@ impl HumanRegex {
         }
     }
 
-    /// Match exactly a certain number of a certain target
+    /// Match exactly _n_ of a certain target
     pub fn exactly(&self, n: u8, target: &str) -> Self {
         let new_regex = format!("{}{}{{{}}}", self.regex_string, target, n);
+        HumanRegex {
+            regex_string: new_regex,
+        }
+    }
+
+    /// Match one or more of a certain target
+    pub fn one_or_more(&self, n: u8, target: &str) -> Self {
+        let new_regex = format!("{}{}+", self.regex_string, target);
+        HumanRegex {
+            regex_string: new_regex,
+        }
+    }
+    /// Match zero or more of a certain target
+    pub fn zero_or_more(&self, n: u8, target: &str) -> Self {
+        let new_regex = format!("{}{}*", self.regex_string, target);
         HumanRegex {
             regex_string: new_regex,
         }
@@ -102,5 +119,11 @@ impl HumanRegex {
     pub fn is_match(&self, string_to_match: &str) -> bool {
         let re = Regex::new(&*self.regex_string).unwrap();
         re.is_match(string_to_match)
+    }
+}
+
+impl fmt::Display for HumanRegex {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.regex_string)
     }
 }
