@@ -1,0 +1,16 @@
+[package]
+name = "human_regex"
+version = "0.1.0"
+authors = ["Chris McComb <ccmcc2012@gmail.com>"]
+description = "A regex library for humans"
+edition = "2021"
+readme = "README.md"
+repository = "https://github.com/cmccomb/human_regex"
+homepage = "https://github.com/cmccomb/human_regex"
+documentation = "https://docs.rs/human_regex"
+license = "MIT OR Apache-2.0"
+keywords = ["regex", "human-readable"]
+categories = ["text-processing", "parser-implementations"]
+
+[dependencies]
+regex = "1"
