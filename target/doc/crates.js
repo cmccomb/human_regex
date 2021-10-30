@@ -1,1 +1,0 @@
-window.ALL_CRATES = ["aho_corasick","human_regex","memchr","regex","regex_syntax"];
