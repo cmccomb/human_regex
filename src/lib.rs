@@ -84,7 +84,7 @@ impl HumanRegex {
     }
 
     /// Match one or more of a certain target
-    pub fn one_or_more(&self, n: u8, target: &str) -> Self {
+    pub fn one_or_more(&self, target: &str) -> Self {
         let new_regex = format!("{}{}+", self.regex_string, target);
         HumanRegex {
             regex_string: new_regex,
@@ -156,5 +156,11 @@ impl HumanRegex {
 impl fmt::Display for HumanRegex {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.regex_string)
+    }
+}
+
+impl From<HumanRegex> for String {
+    fn from(hr: HumanRegex) -> Self {
+        hr.to_string()
     }
 }

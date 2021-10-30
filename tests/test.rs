@@ -35,10 +35,10 @@ mod tests {
 
 #[test]
 fn test_combination() {
-    let first_regex = human_regex::HumanRegex::new().exactly(4, human_regex::DIGIT);
+    let four_digit_regex = human_regex::HumanRegex::new().exactly(4, human_regex::DIGIT);
     let check_match = human_regex::HumanRegex::new()
         .begin()
-        .text(first_regex.to_string())
+        .text(four_digit_regex)
         .text("-")
         .exactly(2, human_regex::DIGIT)
         .text("-")
