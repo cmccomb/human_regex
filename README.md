@@ -9,15 +9,16 @@ to learn the complicated syntax. It is inspired by [ReadableRegex.jl](https://gi
 ### Matching a date
 If you want to match a date of the format `2021-10-30`, you would use the following code to generate a regex:
 ```rust
+use human_regex::{begin, digit, end, exactly, text};
+
 fn main() {
-    use human_regex as hr;
-    let regex_string = hr::begin()
-        + hr::exactly(4, hr::digit())
-        + hr::text("-")
-        + hr::exactly(2, hr::digit())
-        + hr::text("-")
-        + hr::exactly(2, hr::digit())
-        + hr::end();
-    assert!(regex_string.to_regex().is_match("2021-10-31"))
+    let regex_string = begin()
+        + exactly(4, digit())
+        + text("-")
+        + exactly(2, digit())
+        + text("-")
+        + exactly(2, digit())
+        + end();
+    println!("{}", regex_string.to_regex().is_match("2014-01-01"))
 }
 ```
