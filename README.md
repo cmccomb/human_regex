@@ -26,8 +26,7 @@ fn main() {
 # Roadmap
 The eventual goal of this crate is to support all the syntax in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. Here is where we currently stand:
 
-## Character Classes
-### Single Character
+## Single Character (3 of 7)
 
 | Implemented?  | Expression | Description                                                   |
 | :----------:  | :--------: | :------------------------------------------------------------ | 
@@ -39,7 +38,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 |               |`\PN`       | Negated one-letter name Unicode character class               |
 |               |`\P{Greek}` | negated Unicode character class (general category or script)  |
 
-### Perl Character Classes
+## Perl Character Classes (6 of 6)
 
 | Implemented?       | Expression | Description                                                              |
 | :---------------:  | :--------: | :----------------------------------------------------------------------- | 
@@ -50,7 +49,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `word()`           |   `\w`     | word character (\p{Alphabetic} + \p{M} + \d + \p{Pc} + \p{Join_Control}) |
 | `non_word()`       |   `\W`     | not word character                                                       |
 
-### ASCII Character Classes
+## ASCII Character Classes (2 of 14)
 
 | Implemented?       | Expression     | Description                    |
 | :---------------:  | :------------: | :----------------------------- |
@@ -69,7 +68,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 |  `word()`          | `[[:word:]]`   | word characters ([0-9A-Za-z_]) |
 |                    | `[[:xdigit:]]` | hex digit ([0-9A-Fa-f])        |
 
-## Repetitions
+## Repetitions (11 of 11)
 
 | Implemented?              | Expression     | Description                                  |
 | :-----------------------: | :------------: | :------------------------------------------- |
@@ -85,14 +84,14 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `between(n, m, x).lazy()` |    `x{n,m}?`   | at least n x and at most m x (ungreedy/lazy) |
 | `at_least(n, x).lazy()`   |    `x{n,}?`    | at least n x (ungreedy/lazy)                 |
 
-## Composites
+## Composites (2 of 2)
 
 | Implemented?       |   Expression   |      Description                |
 | :---------------:  | :------------: | :------------------------------ |
 |    `+`             |   `xy`         | concatenation (x followed by y) |
 | `or()`             |   `x\|y`       | alternation (x or y, prefer x)  |
 
-## Empty matches
+## Empty matches (4 of 6)
 
 | Implemented?          |   Expression   |      Description                                                    |
 | :------------------:  | :------------: | :------------------------------------------------------------------ |
@@ -103,7 +102,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `word_boundary()`     |    `\b`        | a Unicode word boundary (\w on one side and \W, \A, or \z on other) |
 | `non_word_boundary()` |    `\B`        | not a Unicode word boundary                                         |
 
-## Groupings and Flags
+## Groupings (1 of 5)
 
 | Implemented?       |   Expression    |      Description                                        |
 | :---------------:  | :-------------: | :------------------------------------------------------ |
@@ -112,7 +111,9 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | Handled implicitly through functional composition | `(?:exp)`       | non-capturing group      |
 |                    | `(?flags)`      | set flags within current group                          |
 |                    | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
-
+   
+## Flags (0 of 6)
+    
 | Implemented?       |   Expression   |      Description                                              |
 | :---------------:  | :------------: | :------------------------------------------------------------ |
 |                    |   `i`          | case-insensitive: letters match both upper and lower case     |
