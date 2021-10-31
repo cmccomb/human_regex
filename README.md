@@ -4,6 +4,7 @@
 ## About
 The goal of this crate is simple: give everybody the power of regular expressions without having 
 to learn the complicated syntax. It is inspired by [ReadableRegex.jl](https://github.com/jkrumbiegel/ReadableRegex.jl).
+This crate is a wrapper around the [core Rust regex library](https://crates.io/crates/regex). 
 
 ## Example usage
 ### Matching a date
