@@ -2,8 +2,11 @@ use super::humanregex::{fmt, HumanRegex};
 
 /// A function for establishing an OR relationship between two possible matches
 /// ```
-/// let regex_string = human_regex::or(&["a", "b", "c"]);
-/// assert!(regex_string.to_regex().is_match("a"));
+/// use human_regex::{text, or};
+/// let regex_string = text("gr") + or(&["a", "e"]) + text("y");
+/// assert!(regex_string.to_regex().is_match("grey"));
+/// assert!(regex_string.to_regex().is_match("gray"));
+/// assert!(!regex_string.to_regex().is_match("graey"));
 /// ```
 pub fn or<T>(options: &[T]) -> HumanRegex
 where

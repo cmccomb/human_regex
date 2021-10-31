@@ -11,31 +11,32 @@
 //! ## Matching a date
 //! If you want to match a date of the format `2021-10-30`, you could use the following code to generate a regex:
 //! ```rust
-//! use human_regex as hr;
-//! let regex_string = hr::begin()
-//!     + hr::exactly(4, hr::digit())
-//!     + hr::text("-")
-//!     + hr::exactly(2, hr::digit())
-//!     + hr::text("-")
-//!     + hr::exactly(2, hr::digit())
-//!     + hr::end();
+//! use human_regex::{begin, digit, exactly, text, end};
+//! let regex_string = begin()
+//!     + exactly(4, digit())
+//!     + text("-")
+//!     + exactly(2, digit())
+//!     + text("-")
+//!     + exactly(2, digit())
+//!     + end();
 //! assert!(regex_string.to_regex().is_match("2014-01-01"))
 //! ```
 //! We can do this another way with slightly less repetition though!
 //! ```rust
-//! use human_regex as hr;
-//! let first_regex_string = hr::text("-") + hr::exactly(2, hr::digit());
-//! let second_regex_string = hr::begin()
-//!     + hr::exactly(4, hr::digit())
-//!     + hr::exactly(2, first_regex_string)
-//!     + hr::end();
-//! println!("{}", second_regex_string);
+//! use human_regex::{begin, digit, exactly, text, end};
+//! let first_regex_string = text("-") + exactly(2, digit());
+//! let second_regex_string = begin()
+//!     + exactly(4, digit())
+//!     + exactly(2, first_regex_string)
+//!     + end();
 //! assert!(second_regex_string.to_regex().is_match("2014-01-01"))
 //! ```
+//! ##
 
 mod shorthand;
 pub use shorthand::{
-    any, begin, digit, end, non_digit, non_whitespace, non_word, text, whitespace, word,
+    any, begin, digit, direct_regex, end, non_digit, non_whitespace, non_word, text, whitespace,
+    word,
 };
 
 mod humanregex;
