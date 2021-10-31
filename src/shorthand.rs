@@ -1,5 +1,4 @@
-use super::humanregex::{fmt, HumanRegex};
-use regex::escape;
+use super::humanregex::HumanRegex;
 
 /// A function for matching any character (except for \n)
 /// ```
@@ -90,30 +89,6 @@ pub fn end() -> HumanRegex {
     HumanRegex(r"$".to_string())
 }
 
-/// Add matching text to the regex string. Text that is added through this function is automatically escaped.
-/// ```
-/// let regex_string = human_regex::text("asdf");
-/// assert!(regex_string.to_regex().is_match("asdf"));
-/// assert!(!regex_string.to_regex().is_match("asddf"));
-/// ```
-pub fn text<T>(text: T) -> HumanRegex
-where
-    T: Into<String> + fmt::Display,
-{
-    HumanRegex(escape(&*text.to_string()))
-}
-
-/// Add a regex string directly to the regex string. This text is not escaped.
-/// ```
-/// let regex_string = human_regex::direct_regex(r"^\d{2}$");
-/// println!("{}", regex_string.to_string());
-/// assert!(regex_string.to_regex().is_match("21"));
-/// assert!(!regex_string.to_regex().is_match("007"));
-/// ```
-pub fn direct_regex(text: &str) -> HumanRegex {
-    HumanRegex(text.to_string())
-}
-
 /// A function to match a word boundary
 pub fn word_boundary() -> HumanRegex {
     HumanRegex(r"\b".to_string())
@@ -122,4 +97,29 @@ pub fn word_boundary() -> HumanRegex {
 /// A function to match anything BUT a word boundary
 pub fn non_word_boundary() -> HumanRegex {
     HumanRegex(r"\B".to_string())
+}
+
+/// A function to match any alphanumeric character ([0-9A-Za-z])
+pub fn alphanumeric() -> HumanRegex {
+    HumanRegex(r"[[:alnum:]]".to_string())
+}
+
+/// A function to match any alphabetic character ([A-Za-z])
+pub fn alphabetic() -> HumanRegex {
+    HumanRegex(r"[[:alpha:]]".to_string())
+}
+
+/// A function to match any lowercase character ([a-z])
+pub fn lowercase() -> HumanRegex {
+    HumanRegex(r"[[:lower:]]".to_string())
+}
+
+/// A function to match any lowercase character ([A-Z])
+pub fn uppercase() -> HumanRegex {
+    HumanRegex(r"[[:upper:]]".to_string())
+}
+
+/// A function to match any digit that would appear in a hexadecimal number ([A-Fa-f0-9])
+pub fn hexdigit() -> HumanRegex {
+    HumanRegex(r"[[:xdigit:]]".to_string())
 }

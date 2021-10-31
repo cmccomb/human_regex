@@ -65,19 +65,6 @@ where
     HumanRegex(format!("(:?{})?", target))
 }
 
-/// Match zero or one of a certain target
-/// ```
-/// let regex_string = human_regex::optional("a");
-/// assert!(regex_string.to_regex().is_match("a"));
-/// assert!(regex_string.to_regex().is_match("bb"));
-/// ```
-pub fn optional<T>(target: T) -> HumanRegex
-where
-    T: Into<String> + fmt::Display,
-{
-    HumanRegex(format!("(:?{})?", target))
-}
-
 /// Match exactly _n_ of a certain target
 /// ```
 /// let regex_string = human_regex::exactly(5, "a");

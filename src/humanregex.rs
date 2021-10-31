@@ -1,6 +1,6 @@
 use regex::Regex;
 
-pub use std::fmt;
+pub(crate) use std::fmt;
 use std::ops::Add;
 
 /// The HumanRegex struct which maintains and updates the regex string.
@@ -21,7 +21,7 @@ impl HumanRegex {
 }
 
 /// ```
-/// let regex_string = human_regex::optional("chris") + human_regex::text("mccomb");
+/// let regex_string = human_regex::zero_or_one("chris") + human_regex::text("mccomb");
 /// assert!(regex_string.to_regex().is_match("mccomb"));
 /// assert!(regex_string.to_regex().is_match("chrismccomb"));
 /// ```

@@ -1,8 +1,8 @@
 use super::humanregex::{fmt, HumanRegex};
 
-/// A function for establishing an OR relationship between two possible matches
+/// A function for establishing an OR relationship between two or more possible matches
 /// ```
-/// use human_regex::{text, or};
+/// use human_regex::{text, logical::or};
 /// let regex_string = text("gr") + or(&["a", "e"]) + text("y");
 /// assert!(regex_string.to_regex().is_match("grey"));
 /// assert!(regex_string.to_regex().is_match("gray"));
@@ -15,6 +15,18 @@ where
     let mut regex_string = format!("({})", options[0].to_string());
     for idx in 1..options.len() {
         regex_string = format!("{}|(:?{})", regex_string, options[idx].to_string())
+    }
+    HumanRegex(regex_string)
+}
+
+/// A function for establishing an AND relationship between two or more possible matches
+pub fn and<T>(options: &[T]) -> HumanRegex
+where
+    T: Into<String> + fmt::Display,
+{
+    let mut regex_string = format!("({})", options[0].to_string());
+    for idx in 1..options.len() {
+        regex_string = format!("{}&&(:?{})", regex_string, options[idx].to_string())
     }
     HumanRegex(regex_string)
 }

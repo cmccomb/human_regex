@@ -33,10 +33,26 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `any()`       |   `.`      | any character except new line (includes new line with s flag) |
 | `digit()`     |   `\d`     | digit (\p{Nd})                                                |
 | `non_digit()` |    `\D`    | not digit                                                     |
-|               |`\pN`       | One-letter name Unicode character class                       |
+|               |   `\pN`    | One-letter name Unicode character class                       |
 |               |`\p{Greek}` | Unicode character class (general category or script)          |
-|               |`\PN`       | Negated one-letter name Unicode character class               |
+|               |   `\PN`    | Negated one-letter name Unicode character class               |
 |               |`\P{Greek}` | negated Unicode character class (general category or script)  |
+
+## Character Classes (4 of 11)
+
+| Implemented?  | Expression     | Description                                                   |
+| :----------:  | :------------: | :------------------------------------------------------------ |
+|   `or`        | `[xyz]`        |  A character class matching either x, y or z (union).
+|               | `[^xyz]`       |  A character class matching any character except x, y and z.
+|               | `[a-z]`        |  A character class matching any character in range a-z.
+|  See below    | `[[:alpha:]]`  |  ASCII character class ([A-Za-z])
+|               | `[[:^alpha:]]` |  Negated ASCII character class ([^A-Za-z])
+|     `or`      | `[x[^xyz]]`    | Nested/grouping character class (matching any character except y and z)
+|  `and()`      | `[a-y&&xyz]`   | Intersection (matching x or y)
+|               | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)
+|               | `[0-9--4]`     | Direct subtraction (matching 0-9 except 4)
+|               | `[a-g~~b-h]`   | Symmetric difference (matching `a` and `h` only)
+|               | `[\[\]]`       | Escaping in character classes (matching [ or ])
 
 ## Perl Character Classes (6 of 6)
 
@@ -49,24 +65,24 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `word()`           |   `\w`     | word character (\p{Alphabetic} + \p{M} + \d + \p{Pc} + \p{Join_Control}) |
 | `non_word()`       |   `\W`     | not word character                                                       |
 
-## ASCII Character Classes (2 of 14)
+## ASCII Character Classes (6 of 14)
 
 | Implemented?       | Expression     | Description                    |
-| :---------------:  | :------------: | :----------------------------- |
-|                    | `[[:alnum:]]`  | alphanumeric ([0-9A-Za-z])     |
-|                    | `[[:alpha:]]`  | alphabetic ([A-Za-z])          |
+| :----------------: | :------------: | :----------------------------- |
+| `alphanumeric()`   | `[[:alnum:]]`  | alphanumeric ([0-9A-Za-z])     |
+| `alphabetic()`     | `[[:alpha:]]`  | alphabetic ([A-Za-z])          |
 |                    | `[[:ascii:]]`  | ASCII ([\x00-\x7F])            |
 |                    | `[[:blank:]]`  | blank ([\t ])                  |
 |                    | `[[:cntrl:]]`  | control ([\x00-\x1F\x7F])      |
 | `digit()`          | `[[:digit:]]`  | digits ([0-9])                 |
 |                    | `[[:graph:]]`  | graphical ([!-~])              |
-|                    | `[[:lower:]]`  | lower case ([a-z])             |
+| `uppercase()`      | `[[:lower:]]`  | lower case ([a-z])             |
 |                    | `[[:print:]]`  | printable ([ -~])              |
 |                    | `[[:punct:]]`  | punctuation ([!-/:-@\[-`{-~])  |
 |                    | `[[:space:]]`  | whitespace ([\t\n\v\f\r ])     |
-|                    | `[[:upper:]]`  | upper case ([A-Z])             |
-|  `word()`          | `[[:word:]]`   | word characters ([0-9A-Za-z_]) |
-|                    | `[[:xdigit:]]` | hex digit ([0-9A-Fa-f])        |
+| `lowercase()`      | `[[:upper:]]`  | upper case ([A-Z])             |
+| `word()`           | `[[:word:]]`   | word characters ([0-9A-Za-z_]) |
+| `hexdigit()`       | `[[:xdigit:]]` | hex digit ([0-9A-Fa-f])        |
 
 ## Repetitions (11 of 11)
 

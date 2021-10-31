@@ -33,19 +33,20 @@
 //! ```
 //! ##
 
-mod shorthand;
+pub mod shorthand;
 pub use shorthand::{
-    any, begin, digit, direct_regex, end, non_digit, non_whitespace, non_word, non_word_boundary,
-    text, whitespace, word, word_boundary,
+    alphabetic, alphanumeric, any, begin, digit, end, hexdigit, lowercase, non_digit,
+    non_whitespace, non_word, non_word_boundary, uppercase, whitespace, word, word_boundary,
 };
 
 mod humanregex;
-pub use humanregex::{fmt, HumanRegex};
+pub use humanregex::HumanRegex;
 
-mod repetitions;
-pub use repetitions::{
-    at_least, between, exactly, one_or_more, optional, zero_or_more, zero_or_one,
-};
+pub mod repetitions;
+pub use repetitions::{at_least, between, exactly, one_or_more, zero_or_more, zero_or_one};
 
-mod logical;
-pub use logical::or;
+pub mod logical;
+pub use logical::{and, or};
+
+pub mod direct;
+pub use direct::{direct_regex, text};
