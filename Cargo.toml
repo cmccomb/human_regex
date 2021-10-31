@@ -1,6 +1,6 @@
 [package]
 name = "human_regex"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Chris McComb <ccmcc2012@gmail.com>"]
 description = "A regex library for humans"
 edition = "2021"
