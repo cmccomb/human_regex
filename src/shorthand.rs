@@ -13,6 +13,12 @@ pub fn any() -> HumanRegex {
 }
 
 /// A function for the digit character class (i.e., the digits 0 through 9)
+/// ```
+/// use human_regex::{begin, end, one_or_more, digit};
+/// let regex_string = begin() + one_or_more(digit()) + end();
+/// assert!(regex_string.to_regex().is_match("010101010100100100100101"));
+/// assert!(!regex_string.to_regex().is_match("a string that is not composed of digits will fail"));
+/// ```
 pub fn digit() -> HumanRegex {
     HumanRegex(r"\d".to_string())
 }
@@ -106,4 +112,14 @@ where
 /// ```
 pub fn direct_regex(text: &str) -> HumanRegex {
     HumanRegex(text.to_string())
+}
+
+/// A function to match a word boundary
+pub fn word_boundary() -> HumanRegex {
+    HumanRegex(r"\b".to_string())
+}
+
+/// A function to match anything BUT a word boundary
+pub fn non_word_boundary() -> HumanRegex {
+    HumanRegex(r"\B".to_string())
 }

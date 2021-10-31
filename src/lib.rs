@@ -35,8 +35,8 @@
 
 mod shorthand;
 pub use shorthand::{
-    any, begin, digit, direct_regex, end, non_digit, non_whitespace, non_word, text, whitespace,
-    word,
+    any, begin, digit, direct_regex, end, non_digit, non_whitespace, non_word, non_word_boundary,
+    text, whitespace, word, word_boundary,
 };
 
 mod humanregex;
@@ -44,7 +44,7 @@ pub use humanregex::{fmt, HumanRegex};
 
 mod repetitions;
 pub use repetitions::{
-    at_least, at_least_at_most, exactly, one_or_more, optional, zero_or_more, zero_or_one,
+    at_least, between, exactly, one_or_more, optional, zero_or_more, zero_or_one,
 };
 
 mod logical;
