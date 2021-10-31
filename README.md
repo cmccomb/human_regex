@@ -71,20 +71,19 @@ The eventual goal of this crate is to support all of the syntax in the [core Rus
 
 ## Repetitions
 
-| Implemented?       | Expression | Description |
-| :---------------:  | :------------: | :---------- |
-x*        zero or more of x (greedy)
-x+        one or more of x (greedy)
-x?        zero or one of x (greedy)
-x*?       zero or more of x (ungreedy/lazy)
-x+?       one or more of x (ungreedy/lazy)
-x??       zero or one of x (ungreedy/lazy)
-x{n,m}    at least n x and at most m x (greedy)
-x{n,}     at least n x (greedy)
-x{n}      exactly n x
-x{n,m}?   at least n x and at most m x (ungreedy/lazy)
-x{n,}?    at least n x (ungreedy/lazy)
-x{n}?     exactly n x
+| Implemented?             | Expression | Description |
+| :----------------------: | :------------: | :---------- |
+| `zero_or_more(x)`        |    `x*`        | zero or more of x (greedy) |
+| `one_or_more(x)`         |    `x+`        | one or more of x (greedy) |
+| `zero_or_one(x)`         |    `x?`        | zero or one of x (greedy) |
+| `zero_or_more(x)`        |    `x*?`       | zero or more of x (ungreedy/lazy) |
+| `one_or_more(x).lazy()`  |    `x+?`       | one or more of x (ungreedy/lazy) |
+| `zero_or_more(x).lazy()` |    `x??`       | zero or one of x (ungreedy/lazy) |
+| `at_least_at_most(n, m, x)` |    `x{n,m}`    | at least n x and at most m x (greedy) |
+| `at_least(n, x)`         | `x{n,}`        | at least n x (greedy) |
+| `exactly(n, x)`          | `x{n}`         | exactly n x |
+| `at_least_at_most(n, m, x).lazy()`| `x{n,m}?`  | at least n x and at most m x (ungreedy/lazy) |
+| `at_least(n, x).lazy()`  | `x{n,}?`   | at least n x (ungreedy/lazy) |
 
 ## Composites
 
@@ -93,3 +92,32 @@ x{n}?     exactly n x
 |    `+`             |   `xy`         | concatenation (x followed by y) |
 | `or()`             |   `x\|y`        | alternation (x or y, prefer x)  |
 
+## Empty matches
+
+| Implemented?       |   Expression   |      Description                |
+| :---------------:  | :------------: | :------------------------------ |
+| `begin()` | `^` |     the beginning of text (or start-of-line with multi-line mode) |
+| `end()` | `$`  |   the end of text (or end-of-line with multi-line mode) |
+| |`\A`  |  only the beginning of text (even with multi-line mode enabled) |
+| | `\z` |   only the end of text (even with multi-line mode enabled) |
+| |`\b`   | a Unicode word boundary (\w on one side and \W, \A, or \z on other) |
+| | `\B`  |  not a Unicode word boundary |
+
+## Groupings and Flags
+
+| Implemented?       |   Expression   |      Description                |
+| :---------------:  | :------------: | :------------------------------ |
+| | `(exp)`         | numbered capture group (indexed by opening parenthesis) |
+| | `(?P<name>exp)` | named (also numbered) capture group |
+| | `(?:exp)`       | non-capturing group |
+| | `(?flags)`      | set flags within current group |
+| | `(?flags:exp)`  | set flags for exp (non-capturing) |
+
+| Implemented?       |   Expression   |      Description                |
+| :---------------:  | :------------: | :------------------------------ |
+| | `i` |    case-insensitive: letters match both upper and lower case |
+| | `m` |     multi-line mode: `^` and `$` match begin/end of line |
+| | `s` |     allow `.` to match `\n` |
+| | `U` |     swap the meaning of `x*` and `x*`? |
+| | `u` |     Unicode support (enabled by default) |
+| | `x` |     ignore whitespace and allow line comments (starting with `#`) |
