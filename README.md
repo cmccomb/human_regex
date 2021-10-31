@@ -28,8 +28,9 @@ The eventual goal of this crate is to support all of the syntax in the [core Rus
 
 ## Character Classes
 ### Single Character
+
 | Implemented? | Expression | Description |
-|: ---------- :|: -------- :|: ---------- | 
+| :----------: | :--------: | :---------- | 
 | [x] `any()`  |   `.`      | any character except new line (includes new line with s flag)
 | [x] `digit()`  |   `\d`     |      digit (\p{Nd}) |
 | [x] `non_digit()` |    `\D`    |         not digit
