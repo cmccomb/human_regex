@@ -29,12 +29,12 @@ The eventual goal of this crate is to support all of the syntax in the [core Rus
 ## Character Classes
 ### Single Character
 
-| Implemented? | Expression | Description |
-| :----------: | :--------: | :---------- | 
-| [x] `any()`  |   `.`      | any character except new line (includes new line with s flag)
-| [x] `digit()`  |   `\d`     |      digit (\p{Nd}) |
-| [x] `non_digit()` |    `\D`    |         not digit
-|    [ ]       |`\pN`       |   One-letter name Unicode character class
-|    [ ]       |`\p{Greek}` |   Unicode character class (general category or script)
-|    [ ]       |`\PN`       |   Negated one-letter name Unicode character class
-|    [ ]       |`\P{Greek}` |   negated Unicode character class (general category or script)
+| Implemented?  | Expression | Description |
+| :----------:  | :--------: | :---------- | 
+| `any()`       |   `.`      | any character except new line (includes new line with s flag) |
+| `digit()`     |   `\d`     | digit (\p{Nd}) |
+| `non_digit()` |    `\D`    | not digit |
+|               |`\pN`       | One-letter name Unicode character class |
+|               |`\p{Greek}` | Unicode character class (general category or script) |
+|               |`\PN`       | Negated one-letter name Unicode character class |
+|               |`\P{Greek}` | negated Unicode character class (general category or script) |
