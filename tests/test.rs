@@ -3,7 +3,7 @@ mod tests {
     #[test]
     fn match_date() {
         use human_regex as hr;
-        let regex_string = hr::begin()
+        let regex_string = hr::beginning()
             + hr::exactly(4, hr::digit())
             + hr::text("-")
             + hr::exactly(2, hr::digit())
@@ -17,7 +17,7 @@ mod tests {
     #[should_panic]
     fn match_date_should_panic() {
         use human_regex as hr;
-        let check_match = hr::begin()
+        let check_match = hr::beginning()
             + hr::exactly(4, hr::digit())
             + hr::text("-")
             + hr::exactly(2, hr::digit())

@@ -1,7 +1,4 @@
-#![warn(clippy::all)]
-#![warn(missing_docs)]
-#![warn(rustdoc::missing_doc_code_examples)]
-#![warn(clippy::missing_docs_in_private_items)]
+//! Functions for directly matching text or adding known regex strings
 
 use super::humanregex::{fmt, HumanRegex};
 use regex::escape;

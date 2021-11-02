@@ -1,7 +1,7 @@
-use human_regex::{begin, digit, end, exactly, text};
+use human_regex::{beginning, digit, end, exactly, text};
 
 fn main() {
-    let regex_string = begin()
+    let regex_string = beginning()
         + exactly(4, digit())
         + text("-")
         + exactly(2, digit())

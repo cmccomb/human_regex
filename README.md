@@ -28,33 +28,33 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 
 ## Single Character (3 of 7)
 
-| Implemented?  | Expression | Description                                                   |
-| :----------:  | :--------: | :------------------------------------------------------------ | 
-| `any()`       |   `.`      | any character except new line (includes new line with s flag) |
-| `digit()`     |   `\d`     | digit (\p{Nd})                                                |
-| `non_digit()` |    `\D`    | not digit                                                     |
-|               |   `\pN`    | One-letter name Unicode character class                       |
-|               |`\p{Greek}` | Unicode character class (general category or script)          |
-|               |   `\PN`    | Negated one-letter name Unicode character class               |
-|               |`\P{Greek}` | negated Unicode character class (general category or script)  |
+| Implemented?                 | Expression | Description                                                   |
+| :-------------------------:  | :--------: | :------------------------------------------------------------ | 
+| `any()`                      |   `.`      | any character except new line (includes new line with s flag) |
+| `digit()`                    |   `\d`     | digit (\p{Nd})                                                |
+| `non_digit()`                |    `\D`    | not digit                                                     |
+|   |   `\pN`    | One-letter name Unicode character class                       |
+|   |`\p{Greek}` | Unicode character class (general category or script)          |
+|   |   `\PN`    | Negated one-letter name Unicode character class               |
+|   |`\P{Greek}` | negated Unicode character class (general category or script)  |
 
 ## Character Classes (4 of 11)
 
 | Implemented?  | Expression     | Description                                                   |
 | :----------:  | :------------: | :------------------------------------------------------------ |
-|   `or()`        | `[xyz]`        |  A character class matching either x, y or z (union).
-|               | `[^xyz]`       |  A character class matching any character except x, y and z.
-|               | `[a-z]`        |  A character class matching any character in range a-z.
-|  See below    | `[[:alpha:]]`  |  ASCII character class ([A-Za-z])
-|               | `[[:^alpha:]]` |  Negated ASCII character class ([^A-Za-z])
+| `or(&['x', 'y', 'z'])` | `[xyz]`        |  A character class matching either x, y or z (union).
+|               | `[^xyz]`       | A character class matching any character except x, y and z.
+|               | `[a-z]`        | A character class matching any character in range a-z.
+|  See below    | `[[:alpha:]]`  | ASCII character class ([A-Za-z])
+|               | `[[:^alpha:]]` | Negated ASCII character class ([^A-Za-z])
 |   `or()`      | `[x[^xyz]]`    | Nested/grouping character class (matching any character except y and z)
-|  `and()`      | `[a-y&&xyz]`   | Intersection (matching x or y)
+|               | `[a-y&&xyz]`   | Intersection (matching x or y)
 |               | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)
 |               | `[0-9--4]`     | Direct subtraction (matching 0-9 except 4)
 |               | `[a-g~~b-h]`   | Symmetric difference (matching `a` and `h` only)
 |               | `[\[\]]`       | Escaping in character classes (matching [ or ])
 
-## Perl Character Classes (6 of 6)
+## Perl Character Classes
 
 | Implemented?       | Expression | Description                                                              |
 | :---------------:  | :--------: | :----------------------------------------------------------------------- | 
@@ -65,26 +65,26 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `word()`           |   `\w`     | word character (\p{Alphabetic} + \p{M} + \d + \p{Pc} + \p{Join_Control}) |
 | `non_word()`       |   `\W`     | not word character                                                       |
 
-## ASCII Character Classes (6 of 14)
+## ASCII Character Classes
 
 | Implemented?       | Expression     | Description                    |
-| :----------------: | :------------: | :----------------------------- |
-| `alphanumeric()`   | `[[:alnum:]]`  | alphanumeric ([0-9A-Za-z])     |
-| `alphabetic()`     | `[[:alpha:]]`  | alphabetic ([A-Za-z])          |
-|                    | `[[:ascii:]]`  | ASCII ([\x00-\x7F])            |
-|                    | `[[:blank:]]`  | blank ([\t ])                  |
-|                    | `[[:cntrl:]]`  | control ([\x00-\x1F\x7F])      |
-| `digit()`          | `[[:digit:]]`  | digits ([0-9])                 |
-|                    | `[[:graph:]]`  | graphical ([!-~])              |
-| `uppercase()`      | `[[:lower:]]`  | lower case ([a-z])             |
-|                    | `[[:print:]]`  | printable ([ -~])              |
-|                    | `[[:punct:]]`  | punctuation ([!-/:-@\[-`{-~])  |
-|                    | `[[:space:]]`  | whitespace ([\t\n\v\f\r ])     |
-| `lowercase()`      | `[[:upper:]]`  | upper case ([A-Z])             |
-| `word()`           | `[[:word:]]`   | word characters ([0-9A-Za-z_]) |
-| `hexdigit()`       | `[[:xdigit:]]` | hex digit ([0-9A-Fa-f])        |
+| :-----------------: | :------------: | :----------------------------- |
+| `alphanumeric()`    | `[[:alnum:]]`  | alphanumeric ([0-9A-Za-z])     |
+| `alphabetic()`      | `[[:alpha:]]`  | alphabetic ([A-Za-z])          |
+| `ascii()`           | `[[:ascii:]]`  | ASCII ([\x00-\x7F])            |
+| `blank()`           | `[[:blank:]]`  | blank ([\t ])                  |
+| `control()`         | `[[:cntrl:]]`  | control ([\x00-\x1F\x7F])      |
+| `digit()`           | `[[:digit:]]`  | digits ([0-9])                 |
+| `graphical()`       | `[[:graph:]]`  | graphical ([!-~])              |
+| `uppercase()`       | `[[:lower:]]`  | lower case ([a-z])             |
+| `printable()`       | `[[:print:]]`  | printable ([ -~])              |
+| `punctuation()`     | `[[:punct:]]`  | punctuation ([!-/:-@\[-`{-~])  |
+| `whitespace()`      | `[[:space:]]`  | whitespace ([\t\n\v\f\r ])     |
+| `lowercase()`       | `[[:upper:]]`  | upper case ([A-Z])             |
+| `word()`            | `[[:word:]]`   | word characters ([0-9A-Za-z_]) |
+| `hexdigit()`        | `[[:xdigit:]]` | hex digit ([0-9A-Fa-f])        |
 
-## Repetitions (11 of 11)
+## Repetitions
 
 | Implemented?              | Expression     | Description                                  |
 | :-----------------------: | :------------: | :------------------------------------------- |
@@ -100,33 +100,33 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `between(n, m, x).lazy()` |    `x{n,m}?`   | at least n x and at most m x (ungreedy/lazy) |
 | `at_least(n, x).lazy()`   |    `x{n,}?`    | at least n x (ungreedy/lazy)                 |
 
-## Composites (2 of 2)
+## Composites
 
 | Implemented?       |   Expression   |      Description                |
 | :---------------:  | :------------: | :------------------------------ |
 |    `+`             |   `xy`         | concatenation (x followed by y) |
 | `or()`             |   `x\|y`       | alternation (x or y, prefer x)  |
 
-## Empty matches (4 of 6)
+## Empty matches
 
 | Implemented?          |   Expression   |      Description                                                    |
 | :------------------:  | :------------: | :------------------------------------------------------------------ |
-|    `begin()`          |    `^`         | the beginning of text (or start-of-line with multi-line mode)       |
+|    `beginning()`      |    `^`         | the beginning of text (or start-of-line with multi-line mode)       |
 |     `end()`           |    `$`         | the end of text (or end-of-line with multi-line mode)               |
-|                       |    `\A`        | only the beginning of text (even with multi-line mode enabled)      |
-|                       |    `\z`        | only the end of text (even with multi-line mode enabled)            |
+| `beginning_of_text()` |    `\A`        | only the beginning of text (even with multi-line mode enabled)      |
+|   `end_of_text()`     |    `\z`        | only the end of text (even with multi-line mode enabled)            |
 | `word_boundary()`     |    `\b`        | a Unicode word boundary (\w on one side and \W, \A, or \z on other) |
 | `non_word_boundary()` |    `\B`        | not a Unicode word boundary                                         |
 
 ## Groupings (1 of 5)
 
-| Implemented?       |   Expression    |      Description                                        |
-| :---------------:  | :-------------: | :------------------------------------------------------ |
-|                    | `(exp)`         | numbered capture group (indexed by opening parenthesis) |
-|                    | `(?P<name>exp)` | named (also numbered) capture group                     |
+| Implemented?               |   Expression    |      Description                                        |
+| :-----------------------:  | :-------------: | :------------------------------------------------------ |
+| `capture(exp)`             | `(exp)`         | numbered capture group (indexed by opening parenthesis) |
+| `named_capture(exp, name)` | `(?P<name>exp)` | named (also numbered) capture group                     |
 | Handled implicitly through functional composition | `(?:exp)`       | non-capturing group      |
-|                    | `(?flags)`      | set flags within current group                          |
-|                    | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
+|                            | `(?flags)`      | set flags within current group                          |
+|                            | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
    
 ## Flags (0 of 6)
     
