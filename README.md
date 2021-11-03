@@ -6,13 +6,12 @@ to learn the complicated syntax. It is inspired by [ReadableRegex.jl](https://gi
 This crate is a wrapper around the [core Rust regex library](https://crates.io/crates/regex). 
 
 # Example usage
-## Matching a date
 If you want to match a date of the format `2021-10-30`, you would use the following code to generate a regex:
 ```rust
-use human_regex::{begin, digit, end, exactly, text};
+use human_regex::{beginning, digit, end, exactly, text};
 
 fn main() {
-    let regex_string = begin()
+    let regex_string = beginning()
         + exactly(4, digit())
         + text("-")
         + exactly(2, digit())
@@ -22,6 +21,7 @@ fn main() {
     println!("{}", regex_string.to_regex().is_match("2014-01-01"))
 }
 ```
+The `to_regex()` method returns a [standard Rust regex](https://docs.rs/regex/1.5.4/regex/struct.Regex.html).
 
 # Roadmap
 The eventual goal of this crate is to support all the syntax in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. Here is where we currently stand:
