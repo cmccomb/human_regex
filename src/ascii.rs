@@ -27,7 +27,7 @@ pub fn hexdigit() -> HumanRegex {
     HumanRegex(r"[[:xdigit:]]".to_string())
 }
 
-/// A function to match any ascii digit ([\x00-\x7F]`)
+/// A function to match any ascii digit (`[\x00-\x7F]`)
 pub fn ascii() -> HumanRegex {
     HumanRegex(r"[[:ascii:]]".to_string())
 }
