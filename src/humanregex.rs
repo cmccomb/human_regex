@@ -29,7 +29,7 @@ impl Add for HumanRegex {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self::Output {
-        HumanRegex(format!("(?:{})(?:{})", self.to_string(), rhs.to_string()))
+        HumanRegex(format!("{}{}", self.to_string(), rhs.to_string()))
     }
 }
 

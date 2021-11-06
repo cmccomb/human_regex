@@ -13,16 +13,16 @@ pub fn text<T>(text: T) -> HumanRegex
 where
     T: Into<String> + fmt::Display,
 {
-    HumanRegex(escape(&*text.to_string()))
+    HumanRegex(format!("(?:{})", escape(&*text.to_string())))
 }
 
-/// Add a regex string directly to the regex string. This text is not escaped.
+/// This text is not escaped. You can use it, for instance, to add a regex string directly to the object.
 /// ```
-/// let regex_string = human_regex::direct_regex(r"^\d{2}$");
+/// let regex_string = human_regex::nonescaped_text(r"^\d{2}$");
 /// println!("{}", regex_string.to_string());
 /// assert!(regex_string.to_regex().is_match("21"));
 /// assert!(!regex_string.to_regex().is_match("007"));
 /// ```
-pub fn direct_regex(text: &str) -> HumanRegex {
-    HumanRegex(text.to_string())
+pub fn nonescaped_text(text: &str) -> HumanRegex {
+    HumanRegex(format!("(?:{})", text.to_string()))
 }

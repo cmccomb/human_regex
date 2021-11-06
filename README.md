@@ -1,5 +1,7 @@
-| ⚠️ This package is under active development which will include breaking changes. ⚠️ |
-| :--------------------------------------------------------------------------------: |
+[![Github CI](https://github.com/cmccomb/human_regex/actions/workflows/rust.yml/badge.svg)](https://github.com/cmccomb/human_regex/actions)
+[![Crates.io](https://img.shields.io/crates/v/human_regex.svg)](https://crates.io/crates/human_regex)
+[![docs.rs](https://img.shields.io/docsrs/human_regex/latest)](https://docs.rs/human_regex)
+
 # Regex for Humans
 The goal of this crate is simple: give everybody the power of regular expressions without having 
 to learn the complicated syntax. It is inspired by [ReadableRegex.jl](https://github.com/jkrumbiegel/ReadableRegex.jl).
@@ -126,15 +128,15 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | `named_capture(exp, name)` | `(?P<name>exp)` | named (also numbered) capture group                     |
 | Handled implicitly through functional composition | `(?:exp)`       | non-capturing group      |
 |                            | `(?flags)`      | set flags within current group                          |
-|                            | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
+|  See below                 | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
    
 ## Flags (0 of 6)
     
-| Implemented?       |   Expression   |      Description                                              |
-| :---------------:  | :------------: | :------------------------------------------------------------ |
-|                    |   `i`          | case-insensitive: letters match both upper and lower case     |
-|                    |   `m`          | multi-line mode: `^` and `$` match begin/end of line          |
-|                    |   `s`          | allow `.` to match `\n`                                       |
-|                    |   `U`          | swap the meaning of `x*` and `x*`?                            |
-|                    |   `u`          | Unicode support (enabled by default)                          |
-|                    |   `x`          | ignore whitespace and allow line comments (starting with `#`) |
+| Implemented?            |   Expression   |      Description                                              |
+| :--------------------:  | :------------: | :------------------------------------------------------------ |
+| `case_insensitive(exp)` |   `i`          | case-insensitive: letters match both upper and lower case     |
+|                         |   `m`          | multi-line mode: `^` and `$` match begin/end of line          |
+|                         |   `s`          | allow `.` to match `\n`                                       |
+|                         |   `U`          | swap the meaning of `x*` and `x*`?                            |
+|                         |   `u`          | Unicode support (enabled by default)                          |
+|                         |   `x`          | ignore whitespace and allow line comments (starting with `#`) |

@@ -18,10 +18,7 @@ use super::humanregex::{fmt, HumanRegex};
 /// assert_eq!("14", caps.get(3).unwrap().as_str());
 /// ```
 
-pub fn capture<T>(target: T) -> HumanRegex
-where
-    T: Into<String> + fmt::Display,
-{
+pub fn capture(target: HumanRegex) -> HumanRegex {
     HumanRegex(format!("({})", target))
 }
 
@@ -39,10 +36,6 @@ where
 /// assert_eq!("03", &caps["month"]);
 /// assert_eq!("14", &caps["day"]);
 /// ```
-pub fn named_capture<T, N>(target: T, name: N) -> HumanRegex
-where
-    T: Into<String> + fmt::Display,
-    N: Into<String> + fmt::Display,
-{
+pub fn named_capture(target: HumanRegex, name: &str) -> HumanRegex {
     HumanRegex(format!("(?P<{}>{})", name, target))
 }

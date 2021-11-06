@@ -37,27 +37,25 @@ mod humanregex;
 pub use humanregex::HumanRegex;
 
 pub mod shorthand;
-pub use shorthand::{any, digit, non_digit, non_whitespace, non_word, whitespace, word};
+pub use shorthand::*;
 
 pub mod repetitions;
-pub use repetitions::{at_least, between, exactly, one_or_more, zero_or_more, zero_or_one};
+pub use repetitions::*;
 
 pub mod logical;
-pub use logical::or;
+pub use logical::*;
 
 pub mod direct;
-pub use direct::{direct_regex, text};
+pub use direct::*;
 
 pub mod capturing;
-pub use capturing::{capture, named_capture};
+pub use capturing::*;
 
 pub mod emptymatches;
-pub use emptymatches::{
-    beginning, beginning_of_text, end, end_of_text, non_word_boundary, word_boundary,
-};
+pub use emptymatches::*;
 
 pub mod ascii;
-pub use ascii::{
-    alphabetic, alphanumeric, ascii, control, graphical, hexdigit, lowercase, printable,
-    punctuation, uppercase,
-};
+pub use ascii::*;
+
+pub mod flags;
+pub use flags::*;
