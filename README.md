@@ -1,4 +1,4 @@
-[![Github CI](https://github.com/cmccomb/human_regex/actions/workflows/rust.yml/badge.svg)](https://github.com/cmccomb/human_regex/actions)
+[![Github CI](https://github.com/cmccomb/human_regex/actions/workflows/tests.yml/badge.svg)](https://github.com/cmccomb/human_regex/actions)
 [![Crates.io](https://img.shields.io/crates/v/human_regex.svg)](https://crates.io/crates/human_regex)
 [![docs.rs](https://img.shields.io/docsrs/human_regex/latest?logo=rust)](https://docs.rs/human_regex)
 
