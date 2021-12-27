@@ -114,7 +114,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | Implemented? | Expression | Description                     |
 |:------------:|:----------:|:--------------------------------|
 |      `+`     |  `xy`      | concatenation (x followed by y) |
-|    `or()`    |    `x\| y`                              | alternation (x or y, prefer x)  |
+|    `or()`    |    `x\|y`                              | alternation (x or y, prefer x)  |
 
 ## Empty matches
 
@@ -134,7 +134,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 |                  `capture(exp)`                   |     `(exp)`     | numbered capture group (indexed by opening parenthesis) |
 |            `named_capture(exp, name)`             | `(?P<name>exp)` | named (also numbered) capture group                     |
 | Handled implicitly through functional composition |    `(?:exp)`    | non-capturing group                                     |
-|                                                   |   `(?flags)`    | set flags within current group                          |
+|                     See below                     |   `(?flags)`    | set flags within current group                          |
 |                     See below                     | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
    
 ## Flags 
@@ -147,5 +147,6 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 | will not be implemented<sup>1</sup> |    `U`     | swap the meaning of `x*` and `x*?`                            |
 |       `disable_unicode(exp)`        |    `u`     | Unicode support (enabled by default)                          |
 | will not be implemented<sup>2</sup> |    `x`     | ignore whitespace and allow line comments (starting with `#`) |
+
 1. With the declarative nature of this library, use of this flag would just obfuscate meaning.
 2. When using `human_regex`, comments should be added in source code rather than in the regex string.
