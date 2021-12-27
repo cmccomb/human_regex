@@ -8,83 +8,90 @@ to learn the complicated syntax. It is inspired by [ReadableRegex.jl](https://gi
 This crate is a wrapper around the [core Rust regex library](https://crates.io/crates/regex). 
 
 # Example usage
-If you want to match a date of the format `2021-10-30`, you would use the following code to generate a regex:
+If you want to match a date of the format `2021-10-30`, you could use the following code to generate a regex:
 ```rust
-use human_regex::{beginning, digit, end, exactly, text};
-
-fn main() {
-    let regex_string = beginning()
-        + exactly(4, digit())
-        + text("-")
-        + exactly(2, digit())
-        + text("-")
-        + exactly(2, digit())
-        + end();
-    println!("{}", regex_string.to_regex().is_match("2014-01-01"))
-}
+use human_regex::{beginning, digit, exactly, text, end};
+let regex_string = beginning()
+    + exactly(4, digit())
+    + text("-")
+    + exactly(2, digit())
+    + text("-")
+    + exactly(2, digit())
+    + end();
+assert!(regex_string.to_regex().is_match("2014-01-01"))
+```
+We can do this another way with slightly less repetition though!
+```rust
+use human_regex::{beginning, digit, exactly, text, end};
+let first_regex_string = text("-") + exactly(2, digit());
+let second_regex_string = beginning()
+    + exactly(4, digit())
+    + exactly(2, first_regex_string)
+    + end();
+assert!(second_regex_string.to_regex().is_match("2014-01-01"))
 ```
 The `to_regex()` method returns a [standard Rust regex](https://docs.rs/regex/1.5.4/regex/struct.Regex.html).
 
 # Roadmap
 The eventual goal of this crate is to support all the syntax in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. Here is where we currently stand:
 
-## Single Character (3 of 7)
+## Single Character
 
-| Implemented?  | Expression  | Description                                                    |
-|:-------------:|:-----------:|:---------------------------------------------------------------| 
-|    `any()`    |     `.`     | any character except new line (includes new line with s flag)  |
-|   `digit()`   |    `\d`     | digit (\p{Nd})                                                 |
-| `non_digit()` |    `\D`     | not digit                                                      |
-|               |    `\pN`    | One-letter name Unicode character class                        |
-|               | `\p{Greek}` | Unicode character class (general category or script)           |
-|               |    `\PN`    | Negated one-letter name Unicode character class                |
-|               | `\P{Greek}` | negated Unicode character class (general category or script)   |
+| Implemented? | Expression | Description                                                   |
+|:-------------:|:-----------:|:--------------------------------------------------------------| 
+|    `any()`    |     `.`     | any character except new line (includes new line with s flag) |
+|   `digit()`   |    `\d`     | digit (`\p{Nd}`)                                              |
+| `non_digit()` |    `\D`     | not digit                                                     |
+|               |    `\pN`    | One-letter name Unicode character class                       |
+|               | `\p{Greek}` | Unicode character class (general category or script)          |
+|               |    `\PN`    | Negated one-letter name Unicode character class               |
+|               | `\P{Greek}` | negated Unicode character class (general category or script)  |
 
-## Character Classes (4 of 11)
+## Character Classes
 
-|      Implemented?      |   Expression   | Description                                                               |
-|:----------------------:|:--------------:|:--------------------------------------------------------------------------|
-| `or(&['x', 'y', 'z'])` | `[xyz]`        | A character class matching either x, y or z (union).                      |
-|                        |    `[^xyz]`    | A character class matching any character except x, y and z.               |
-|                        |    `[a-z]`     | A character class matching any character in range a-z.                    |
-|       See below        | `[[:alpha:]]`  | ASCII character class ([A-Za-z])                                          |                
-|                        | `[[:^alpha:]]` | Negated ASCII character class ([^A-Za-z])                                 |               
-|         `or()`         |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z)   |
-|                        |  `[a-y&&xyz]`  | Intersection (matching x or y)                                            |             
-|                        | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)       |    
-|                        |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4)                                |             
-|                        |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                          |          
-|                        |    `[\[\]]`    | Escaping in character classes (matching [ or ])                           |         
+|      Implemented?      |   Expression   | Description                                                             |
+|:----------------------:|:--------------:|:------------------------------------------------------------------------|
+| `or(&['x', 'y', 'z'])` |    `[xyz]`     | A character class matching either x, y or z (union).                    |
+|                        |    `[^xyz]`    | A character class matching any character except x, y and z.             |
+|                        |    `[a-z]`     | A character class matching any character in range a-z.                  |
+|       See below        | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
+|                        | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
+|         `or()`         |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z) |
+|                        |  `[a-y&&xyz]`  | Intersection (matching x or y)                                          |             
+|                        | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
+|                        |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4)                              |             
+|                        |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                        |          
+|                        |    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                     |         
 
 ## Perl Character Classes
 
-| Implemented?       | Expression | Description                                                              |
-| :---------------:  | :--------: |:-------------------------------------------------------------------------| 
-| `digit()`          |   `\d`     | digit (\p{Nd})                                                           |
-| `non_digit()`      |   `\D`     | not digit                                                                |
-| `whitespace()`     |   `\s`     | whitespace (\p{White_Space})                                             |
-| `non_whitespace()` |   `\S`     | not whitespace                                                           |
-| `word()`           |   `\w`     | word character (\p{Alphabetic} + \p{M} + \d + \p{Pc} + \p{Join_Control}) |
-| `non_word()`       |   `\W`     | not word character                                                       |
+|    Implemented?    | Expression | Description                                                                |
+|:------------------:| :--------: |:---------------------------------------------------------------------------| 
+|     `digit()`      |   `\d`     | digit (`\p{Nd}`)                                                           |
+|   `non_digit()`    |   `\D`     | not digit                                                                  |
+|   `whitespace()`   |   `\s`     | whitespace (`\p{White_Space}`)                                             |
+| `non_whitespace()` |   `\S`     | not whitespace                                                             |
+|      `word()`      |   `\w`     | word character (`\p{Alphabetic} + \p{M} + \d + \p{Pc} + \p{Join_Control}`) |
+|      `non_word()`  |   `\W`     | not word character                                                         |
 
 ## ASCII Character Classes
 
-|   Implemented?    |   Expression   | Description                     |
-|:-----------------:|:--------------:|:--------------------------------|
-| `alphanumeric()`  | `[[:alnum:]]`  | alphanumeric ([0-9A-Za-z])      |
-|  `alphabetic()`   | `[[:alpha:]]`  | alphabetic ([A-Za-z])           |
-|     `ascii()`     | `[[:ascii:]]`  | ASCII ([\x00-\x7F])             |
-|     `blank()`     | `[[:blank:]]`  | blank ([\t ])                   |
-|    `control()`    | `[[:cntrl:]]`  | control ([\x00-\x1F\x7F])       |
-|     `digit()`     | `[[:digit:]]`  | digits ([0-9])                  |
-|   `graphical()`   | `[[:graph:]]`  | graphical ([!-~])               |
-|   `uppercase()`   | `[[:lower:]]`  | lower case ([a-z])              |
-|   `printable()`   | `[[:print:]]`  | printable ([ -~])               |
-|  `punctuation()`  | `[[:punct:]]`  | punctuation ([!-/:-@\[-`{-~])   |
-|  `whitespace()`   | `[[:space:]]`  | whitespace ([\t\n\v\f\r ])      |
-|   `lowercase()`   | `[[:upper:]]`  | upper case ([A-Z])              |
-|     `word()`      |  `[[:word:]]`  | word characters ([0-9A-Za-z_])  |
-|   `hexdigit()`    | `[[:xdigit:]]` | hex digit ([0-9A-Fa-f])         |
+|   Implemented?   |   Expression   | Description                      |
+|:----------------:|:--------------:|:---------------------------------|
+| `alphanumeric()` | `[[:alnum:]]`  | alphanumeric (`[0-9A-Za-z]`)     |
+|  `alphabetic()`  | `[[:alpha:]]`  | alphabetic (`[A-Za-z]`)          |
+|    `ascii()`     | `[[:ascii:]]`  | ASCII (`[\x00-\x7F]`)            |
+|    `blank()`     | `[[:blank:]]`  | blank (`[\t ]`)                  |
+|   `control()`    | `[[:cntrl:]]`  | control (`[\x00-\x1F\x7F]`)      |
+|    `digit()`     | `[[:digit:]]`  | digits (`[0-9]`)                 |
+|  `graphical()`   | `[[:graph:]]`  | graphical (`[!-~]`)              |
+|  `uppercase()`   | `[[:lower:]]`  | lower case (`[a-z]`)             |
+|  `printable()`   | `[[:print:]]`  | printable (`[ -~]`)              |
+| `punctuation()`  | `[[:punct:]]`  | punctuation ([!-/:-@\[-`{-~])    |
+|  `whitespace()`  | `[[:space:]]`  | whitespace (`[\t\n\v\f\r ]`)     |
+|  `lowercase()`   | `[[:upper:]]`  | upper case (`[A-Z]`)             |
+|     `word()`     |  `[[:word:]]`  | word characters (`[0-9A-Za-z_]`) |
+|   `hexdigit()`   | `[[:xdigit:]]` | hex digit (`[0-9A-Fa-f]`)        |
 
 ## Repetitions
 
