@@ -1,6 +1,6 @@
 //! Functions for performing logical operations
 
-use super::humanregex::{HumanRegex};
+use super::humanregex::HumanRegex;
 
 /// A function for establishing an OR relationship between two or more possible matches
 /// ```
