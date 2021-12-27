@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod tests {
     use human_regex as hr;
-    use regex::Regex;
 
     #[test]
     fn find_a_date() {

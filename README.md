@@ -18,7 +18,7 @@ let regex_string = beginning()
     + text("-")
     + exactly(2, digit())
     + end();
-assert!(regex_string.to_regex().is_match("2014-01-01"))
+assert!(regex_string.to_regex().is_match("2014-01-01"));
 ```
 We can do this another way with slightly less repetition though!
 ```rust
@@ -28,7 +28,7 @@ let second_regex_string = beginning()
     + exactly(4, digit())
     + exactly(2, first_regex_string)
     + end();
-assert!(second_regex_string.to_regex().is_match("2014-01-01"))
+assert!(second_regex_string.to_regex().is_match("2014-01-01"));
 ```
 The `to_regex()` method returns a [standard Rust regex](https://docs.rs/regex/1.5.4/regex/struct.Regex.html).
 
@@ -37,7 +37,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 
 ## Single Character
 
-| Implemented? | Expression | Description                                                   |
+| Implemented?  | Expression  | Description                                                   |
 |:-------------:|:-----------:|:--------------------------------------------------------------| 
 |    `any()`    |     `.`     | any character except new line (includes new line with s flag) |
 |   `digit()`   |    `\d`     | digit (`\p{Nd}`)                                              |
@@ -76,22 +76,22 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 
 ## ASCII Character Classes
 
-|   Implemented?   |   Expression   | Description                      |
-|:----------------:|:--------------:|:---------------------------------|
-| `alphanumeric()` | `[[:alnum:]]`  | alphanumeric (`[0-9A-Za-z]`)     |
-|  `alphabetic()`  | `[[:alpha:]]`  | alphabetic (`[A-Za-z]`)          |
-|    `ascii()`     | `[[:ascii:]]`  | ASCII (`[\x00-\x7F]`)            |
-|    `blank()`     | `[[:blank:]]`  | blank (`[\t ]`)                  |
-|   `control()`    | `[[:cntrl:]]`  | control (`[\x00-\x1F\x7F]`)      |
-|    `digit()`     | `[[:digit:]]`  | digits (`[0-9]`)                 |
-|  `graphical()`   | `[[:graph:]]`  | graphical (`[!-~]`)              |
-|  `uppercase()`   | `[[:lower:]]`  | lower case (`[a-z]`)             |
-|  `printable()`   | `[[:print:]]`  | printable (`[ -~]`)              |
-| `punctuation()`  | `[[:punct:]]`  | punctuation ([!-/:-@\[-`{-~])    |
-|  `whitespace()`  | `[[:space:]]`  | whitespace (`[\t\n\v\f\r ]`)     |
-|  `lowercase()`   | `[[:upper:]]`  | upper case (`[A-Z]`)             |
-|     `word()`     |  `[[:word:]]`  | word characters (`[0-9A-Za-z_]`) |
-|   `hexdigit()`   | `[[:xdigit:]]` | hex digit (`[0-9A-Fa-f]`)        |
+|   Implemented?   |   Expression   | Description                       |
+|:----------------:|:--------------:|:----------------------------------|
+| `alphanumeric()` | `[[:alnum:]]`  | alphanumeric (`[0-9A-Za-z]`)      |
+|  `alphabetic()`  | `[[:alpha:]]`  | alphabetic (`[A-Za-z]`)           |
+|    `ascii()`     | `[[:ascii:]]`  | ASCII (`[\x00-\x7F]`)             |
+|    `blank()`     | `[[:blank:]]`  | blank (`[\t ]`)                   |
+|   `control()`    | `[[:cntrl:]]`  | control (`[\x00-\x1F\x7F]`)       |
+|    `digit()`     | `[[:digit:]]`  | digits (`[0-9]`)                  |
+|  `graphical()`   | `[[:graph:]]`  | graphical (`[!-~]`)               |
+|  `uppercase()`   | `[[:lower:]]`  | lower case (`[a-z]`)              |
+|  `printable()`   | `[[:print:]]`  | printable (`[ -~]`)               |
+| `punctuation()`  | `[[:punct:]]`  | punctuation (``[!-/:-@\[-`{-~]``) |
+|  `whitespace()`  | `[[:space:]]`  | whitespace (`[\t\n\v\f\r ]`)      |
+|  `lowercase()`   | `[[:upper:]]`  | upper case (`[A-Z]`)              |
+|     `word()`     |  `[[:word:]]`  | word characters (`[0-9A-Za-z_]`)  |
+|   `hexdigit()`   | `[[:xdigit:]]` | hex digit (`[0-9A-Fa-f]`)         |
 
 ## Repetitions
 
@@ -127,7 +127,7 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 |   `word_boundary()`   |    `\b`    | a Unicode word boundary (\w on one side and \W, \A, or \z on other) |
 | `non_word_boundary()` |    `\B`    | not a Unicode word boundary                                         |
 
-## Groupings (1 of 5)
+## Groupings 
 
 |                   Implemented?                    |   Expression    | Description                                             |
 |:-------------------------------------------------:|:---------------:|:--------------------------------------------------------|
@@ -137,13 +137,15 @@ The eventual goal of this crate is to support all the syntax in the [core Rust r
 |                                                   |   `(?flags)`    | set flags within current group                          |
 |                     See below                     | `(?flags:exp)`  | set flags for exp (non-capturing)                       |
    
-## Flags (0 of 6)
+## Flags 
     
-|      Implemented?       | Expression | Description                                                   |
-|:-----------------------:|:----------:|:--------------------------------------------------------------|
-| `case_insensitive(exp)` |    `i`     | case-insensitive: letters match both upper and lower case     |
-|                         |    `m`     | multi-line mode: `^` and `$` match begin/end of line          |
-|                         |    `s`     | allow `.` to match `\n`                                       |
-|                         |    `U`     | swap the meaning of `x*` and `x*`?                            |
-|                         |    `u`     | Unicode support (enabled by default)                          |
-|                         |    `x`     | ignore whitespace and allow line comments (starting with `#`) |
+|            Implemented?             | Expression | Description                                                   |
+|:-----------------------------------:|:----------:|:--------------------------------------------------------------|
+|       `case_insensitive(exp)`       |    `i`     | case-insensitive: letters match both upper and lower case     |
+|       `multi_line_mode(exp)`        |    `m`     | multi-line mode: `^` and `$` match begin/end of line          |
+|   `dot_matches_newline_too(exp)`    |    `s`     | allow `.` to match `\n`                                       |
+| will not be implemented<sup>1</sup> |    `U`     | swap the meaning of `x*` and `x*?`                            |
+|       `disable_unicode(exp)`        |    `u`     | Unicode support (enabled by default)                          |
+| will not be implemented<sup>2</sup> |    `x`     | ignore whitespace and allow line comments (starting with `#`) |
+1. With the declarative nature of this library, use of this flag would just obfuscate meaning.
+2. When using `human_regex`, comments should be added in source code rather than in the regex string.
