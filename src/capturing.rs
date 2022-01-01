@@ -1,6 +1,6 @@
 //! Functions for capturing matches
 
-use super::humanregex::{fmt, HumanRegex};
+use super::humanregex::HumanRegex;
 
 /// Add a numbered capturing group around an expression
 /// ```

@@ -14,3 +14,6 @@ categories = ["text-processing", "parser-implementations"]
 
 [dependencies]
 regex = "1"
+
+[dev-dependencies]
+stop-words = "0.6.2"

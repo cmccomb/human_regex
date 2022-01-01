@@ -11,7 +11,10 @@ use super::humanregex::{fmt, HumanRegex};
 /// assert!(regex_string.to_regex().is_match("gray"));
 /// assert!(!regex_string.to_regex().is_match("graey"));
 /// ```
-pub fn or(options: &[HumanRegex]) -> HumanRegex {
+pub fn or<T>(options: &[T]) -> HumanRegex
+where
+    T: Into<String> + fmt::Display,
+{
     let mut regex_string = format!("{}", options[0].to_string());
     for idx in 1..options.len() {
         regex_string = format!("{}|{}", regex_string, options[idx].to_string())
@@ -20,7 +23,10 @@ pub fn or(options: &[HumanRegex]) -> HumanRegex {
 }
 
 /// A function for establishing an AND relationship between two or more possible matches
-pub fn and(options: &[HumanRegex]) -> HumanRegex {
+pub fn and<T>(options: &[T]) -> HumanRegex
+where
+    T: Into<String> + fmt::Display,
+{
     let mut regex_string = format!("{}", options[0].to_string());
     for idx in 1..options.len() {
         regex_string = format!("{}&&{}", regex_string, options[idx].to_string())
