@@ -33,7 +33,7 @@ assert!(second_regex_string.to_regex().is_match("2014-01-01"));
 The `to_regex()` method returns a [standard Rust regex](https://docs.rs/regex/1.5.4/regex/struct.Regex.html).
 
 # Roadmap
-The eventual goal of this crate is to support all the syntax in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. Here is where we currently stand:
+The eventual goal of this crate is to support all the syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. Here is where we currently stand:
 
 ## Single Character
 
