@@ -1,4 +1,4 @@
-use human_regex::{exactly, one_or_more, or, punctuation, whitespace, word_boundary};
+use human_regex::{escape_all, exactly, one_or_more, or, punctuation, whitespace, word_boundary};
 use stop_words::{get, LANGUAGE};
 
 fn main() {
@@ -19,8 +19,10 @@ fn main() {
         .replace_all(&*lowercase_doc, "");
 
     // Make a regex to match stopwords with trailing spaces and punctuation
-    let regex_for_stop_words =
-        word_boundary() + exactly(1, or(&words)) + word_boundary() + one_or_more(whitespace());
+    let regex_for_stop_words = word_boundary()
+        + exactly(1, or(&escape_all(&words)))
+        + word_boundary()
+        + one_or_more(whitespace());
 
     // Remove stop words
     let clean_text = regex_for_stop_words

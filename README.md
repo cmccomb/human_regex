@@ -52,7 +52,7 @@ The eventual goal of this crate is to support all the syntax available in the [c
 |      Implemented?      |   Expression   | Description                                                             |
 |:----------------------:|:--------------:|:------------------------------------------------------------------------|
 | `or(&['x', 'y', 'z'])` |    `[xyz]`     | A character class matching either x, y or z (union).                    |
-|                        |    `[^xyz]`    | A character class matching any character except x, y and z.             |
+|`nor(&['x', 'y', 'z'])` |    `[^xyz]`    | A character class matching any character except x, y and z.             |
 |                        |    `[a-z]`     | A character class matching any character in range a-z.                  |
 |       See below        | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
 |                        | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               

@@ -16,6 +16,24 @@ where
     HumanRegex(format!("(?:{})", escape(&*text.to_string())))
 }
 
+/// Escapes an entire list for use in something like an [or] or an [and] expression.
+///
+/// See the [cookbook] stop words example for an example of the utility of this function.
+/// ```
+/// use human_regex::direct::escape_all;
+/// let escaped_vec = escape_all(&vec!["et-al", "short-term", "full-scale"]);
+/// assert_eq!(escaped_vec, vec![r"et\-al", r"short\-term", r"full\-scale"]);
+///```
+pub fn escape_all<T>(options: &[T]) -> Vec<String>
+where
+    T: Into<String> + fmt::Display,
+{
+    options
+        .iter()
+        .map(|string| string.to_string().replace("-", r"\-"))
+        .collect()
+}
+
 /// This text is not escaped. You can use it, for instance, to add a regex string directly to the object.
 /// ```
 /// let regex_string = human_regex::nonescaped_text(r"^\d{2}$");
