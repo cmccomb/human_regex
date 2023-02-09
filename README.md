@@ -37,15 +37,15 @@ The eventual goal of this crate is to support all the syntax available in the [c
 
 ## Single Character
 
-| Implemented?  | Expression  | Description                                                   |
-|:-------------:|:-----------:|:--------------------------------------------------------------| 
-|    `any()`    |     `.`     | any character except new line (includes new line with s flag) |
-|   `digit()`   |    `\d`     | digit (`\p{Nd}`)                                              |
-| `non_digit()` |    `\D`     | not digit                                                     |
-|               |    `\pN`    | One-letter name Unicode character class                       |
-|               | `\p{Greek}` | Unicode character class (general category or script)          |
-|               |    `\PN`    | Negated one-letter name Unicode character class               |
-|               | `\P{Greek}` | negated Unicode character class (general category or script)  |
+| Implemented?                                | Expression          | Description                                                   |
+|:-------------------------------------------:|:-------------------:|:--------------------------------------------------------------| 
+| `any()`                                     |         `.`         | any character except new line (includes new line with s flag) |
+| `digit()`                                   |        `\d`         | digit (`\p{Nd}`)                                              |
+| `non_digit()`                               |        `\D`         | not digit                                                     |
+| `unicode_category(UnicodeCategory)`         |        `\pN`        | Unicode non-script category                                   |
+| `unicode_script(UnicodeScript)`             |     `\p{Greek}`     | Unicode script category                                       |
+|                                             |        `\PN`        | Negated one-letter name Unicode character class               |
+|                                             |     `\P{Greek}`     | negated Unicode character class (general category or script)  |
 
 ## Character Classes
 
