@@ -166,6 +166,19 @@ pub fn unicode_category(category: UnicodeCategory) -> HumanRegex {
     })
 }
 
+/// A function for not matching Unicode character categories. For matching script categories see [non_unicode_script].
+/// ```
+/// use human_regex::{beginning, end, one_or_more, non_unicode_category, UnicodeCategory};
+/// let regex_string = beginning()
+///     + one_or_more(non_unicode_category(UnicodeCategory::CurrencySymbol))
+///     + end();
+/// assert!(regex_string.to_regex().is_match("normal words"));
+/// assert!(!regex_string.to_regex().is_match("$¥₹"));
+/// ```
+pub fn non_unicode_category(category: UnicodeCategory) -> HumanRegex {
+    HumanRegex(unicode_category(category).to_string().replace(r"\p", r"\P"))
+}
+
 /// An enum for covering all Unicode script categories
 ///
 /// Used in the [unicode_script] function
@@ -275,4 +288,17 @@ pub fn unicode_script(category: UnicodeScript) -> HumanRegex {
         UnicodeScript::Tibetan => r"\p{Tibetan}".to_string(),
         UnicodeScript::Yi => r"\p{Yi}".to_string(),
     })
+}
+
+/// A function for matching Unicode characters not belonging to a certain script category. For matching other categories see [non_unicode_category].
+/// ```
+/// use human_regex::{beginning, end, one_or_more, non_unicode_script, UnicodeScript};
+/// let regex_string = beginning()
+///     + one_or_more(non_unicode_script(UnicodeScript::Han))
+///     + end();
+/// assert!(regex_string.to_regex().is_match("latin text"));
+/// assert!(!regex_string.to_regex().is_match("蟹"));
+/// ```
+pub fn non_unicode_script(category: UnicodeScript) -> HumanRegex {
+    HumanRegex(unicode_script(category).to_string().replace(r"\p", r"\P"))
 }

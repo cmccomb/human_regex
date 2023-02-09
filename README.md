@@ -42,10 +42,10 @@ The eventual goal of this crate is to support all the syntax available in the [c
 | `any()`                                     |         `.`         | any character except new line (includes new line with s flag) |
 | `digit()`                                   |        `\d`         | digit (`\p{Nd}`)                                              |
 | `non_digit()`                               |        `\D`         | not digit                                                     |
-| `unicode_category(UnicodeCategory)`         |        `\pN`        | Unicode non-script category                                   |
+| `unicode_category(UnicodeCategory)`         |        `\p{L}`      | Unicode non-script category                                   |
 | `unicode_script(UnicodeScript)`             |     `\p{Greek}`     | Unicode script category                                       |
-|                                             |        `\PN`        | Negated one-letter name Unicode character class               |
-|                                             |     `\P{Greek}`     | negated Unicode character class (general category or script)  |
+| `non_unicode_category(UnicodeCategory)`     |        `\P{L}`      | Negated one-letter name Unicode character class               |
+| `non_unicode_script(UnicodeCategory)`       |     `\P{Greek}`     | negated Unicode character class (general category or script)  |
 
 ## Character Classes
 
