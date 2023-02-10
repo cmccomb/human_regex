@@ -55,7 +55,7 @@ The eventual goal of this crate is to support all the syntax available in the [c
 |`nor(&['x', 'y', 'z'])` |    `[^xyz]`    | A character class matching any character except x, y and z.             |
 |                        |    `[a-z]`     | A character class matching any character in range a-z.                  |
 |       See below        | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
-|                        | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
+|  `non_alphanumeric()`  | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
 |         `or()`         |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z) |
 |                        |  `[a-y&&xyz]`  | Intersection (matching x or y)                                          |             
 |                        | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
