@@ -49,20 +49,20 @@ The eventual goal of this crate is to support all the syntax available in the [c
 
 ## Character Classes
 
-|      Implemented?        |   Expression   | Description                                                             |
-|:------------------------:|:--------------:|:------------------------------------------------------------------------|
-|  `or(&['x', 'y', 'z']) ` |    `[xyz]`     | A character class matching either x, y or z (union).                    |
-|  `nor(&['x', 'y', 'z'])` |    `[^xyz]`    | A character class matching any character except x, y and z.             |
-|`within_range('a'..='z')` |    `[a-z]`     | A character class matching any character in range a-z.                  |
-|`without_range('a'..='z')`|    `[^a-z]`    | A character class matching any character outside range a-z.             |
-|       See below          | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
-|  `non_alphanumeric()`    | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
-|         `or()`           |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z) |
-|      `and(&[])`/`&`      |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                         |             
-| `(or[1,2,3,4] & nor(3))` | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
-|                          |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4)                              |             
-|                          |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                        |          
-|                          |    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                     |         
+|      Implemented?           |   Expression   | Description                                                             |
+|:---------------------------:|:--------------:|:------------------------------------------------------------------------|
+|  `or(&['x', 'y', 'z']) `    |    `[xyz]`     | A character class matching either x, y or z (union).                    |
+|  `nor(&['x', 'y', 'z'])`    |    `[^xyz]`    | A character class matching any character except x, y and z.             |
+|`within_range('a'..='z')`    |    `[a-z]`     | A character class matching any character in range a-z.                  |
+|`without_range('a'..='z')`   |    `[^a-z]`    | A character class matching any character outside range a-z.             |
+|       See below             | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
+|  `non_alphanumeric()`       | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
+|         `or()`              |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z) |
+|      `and(&[])`/`&`         |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                         |             
+| `(or[1,2,3,4] & nor(3))`    | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
+|                             |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4)                              |             
+|                             |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                        |          
+|`or(&escape_all(&['[',']']))`|    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                     |         
 
 ## Perl Character Classes
 

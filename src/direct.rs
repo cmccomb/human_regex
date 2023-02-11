@@ -30,7 +30,15 @@ where
 {
     options
         .iter()
-        .map(|string| string.to_string().replace("-", r"\-"))
+        .map(|string| {
+            string
+                .to_string()
+                .replace("-", r"\-")
+                .replace("[", r"\[")
+                .replace("]", r"\]")
+                .replace("{", r"\{")
+                .replace("}", r"\}")
+        })
         .collect()
 }
 
