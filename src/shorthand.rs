@@ -69,6 +69,29 @@ pub fn non_whitespace() -> HumanRegex {
     HumanRegex(r"\S".to_string())
 }
 
+/// Matches anything within a range of characters
+///```
+/// use human_regex::{beginning, end, within_range};
+/// let regex_string = beginning() + within_range('a'..='d') + end();
+/// println!("{}", beginning());
+/// assert!(regex_string.to_regex().is_match("c"));
+/// assert!(!regex_string.to_regex().is_match("h"));
+///```
+pub fn within_range(range: std::ops::RangeInclusive<char>) -> HumanRegex {
+    HumanRegex(format!("[{}-{}]", range.start(), range.end()))
+}
+/// Matches anything outside of a range of characters
+///```
+/// use human_regex::{beginning, end, without_range};
+/// let regex_string = beginning() + without_range('a'..='d') + end();
+/// println!("{}", beginning());
+/// assert!(regex_string.to_regex().is_match("h"));
+/// assert!(!regex_string.to_regex().is_match("c"));
+///```
+pub fn without_range(range: std::ops::RangeInclusive<char>) -> HumanRegex {
+    HumanRegex(format!("[^{}-{}]", range.start(), range.end()))
+}
+
 /// An enum covering all Unicode character categories
 ///
 /// Used in the [unicode_category] function.
