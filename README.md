@@ -58,8 +58,8 @@ The eventual goal of this crate is to support all the syntax available in the [c
 |       See below          | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
 |  `non_alphanumeric()`    | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
 |         `or()`           |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z) |
-|                          |  `[a-y&&xyz]`  | Intersection (matching x or y)                                          |             
-|                          | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
+|      `and(&[])`/`&`      |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                         |             
+| `(or[1,2,3,4] & nor(3))` | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
 |                          |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4)                              |             
 |                          |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                        |          
 |                          |    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                     |         
