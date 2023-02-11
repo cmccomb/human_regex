@@ -61,7 +61,7 @@ The eventual goal of this crate is to support all the syntax available in the [c
 |      `and(&[])`/`&`         |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
 | `(or[1,2,3,4] & nor(3))`    | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)                 |    
 |    `subtract(&[],&[])`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4). Use .collect::<Vec<char>> to use ranges.|             
-|                             |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                                    |          
+|      `xor(&[],&[])`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only). Requires .collect() for ranges.   |          
 |`or(&escape_all(&['[',']']))`|    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                                 |         
 
 ## Perl Character Classes
@@ -115,7 +115,7 @@ The eventual goal of this crate is to support all the syntax available in the [c
 | Implemented? | Expression | Description                     |
 |:------------:|:----------:|:--------------------------------|
 |      `+`     |  `xy`      | concatenation (x followed by y) |
-|    `or()`    |    `x\|y`                              | alternation (x or y, prefer x)  |
+|    `or()`    |    `x\|y`  | alternation (x or y, prefer x)  |
 
 ## Empty matches
 

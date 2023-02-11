@@ -39,6 +39,29 @@ where
     HumanRegex(or(options).to_string().replacen("[", "[^", 1))
 }
 
+/// Xor on two bracketed expressions, also known as symmetric difference.
+///
+/// If you would like to use ranges, collect them into a Vec<T>.
+/// ```
+/// use human_regex::xor;
+/// let regex_string = xor(&('a'..='g').collect::<Vec<char>>(), &('b'..='h').collect::<Vec<char>>());
+/// println!("{}", regex_string);
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("h"));
+/// assert!(!regex_string.to_regex().is_match("d"));
+/// ```
+pub fn xor<T>(lhs: &[T], rhs: &[T]) -> HumanRegex
+where
+    T: Into<String> + fmt::Display,
+{
+    HumanRegex(format!("[{}~~{}]", or(lhs), or(rhs)))
+    // I really don't like this implementation, but it's the only
+    // "type safe" way to do it for now. I plan on completely overhauling
+    // the HumanRegex type system to include things like "BracketedExpression",
+    // which will implement Into<HumanRegex>, and that will be what's used as
+    // arguments here in the future.
+}
+
 /// A function for establishing an AND relationship between two or more possible matches
 /// ```
 /// use human_regex::{text, and, or, within};
