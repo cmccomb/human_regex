@@ -8,5 +8,5 @@ fn main() {
         + text("-")
         + exactly(2, digit())
         + end();
-    println!("{}", regex_string.to_regex().is_match("2014-01-01"))
+    println!("{}", regex_string.to_regex().is_match("2014-01-01"));
 }

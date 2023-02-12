@@ -10,7 +10,7 @@ fn main() {
         .to_regex()
         .captures_iter(matching_string)
     {
-        println!("Greedy: {}", &capture[0])
+        println!("Greedy: {}", &capture[0]);
     }
 
     // Try it with a lazy match
@@ -19,6 +19,6 @@ fn main() {
         .to_regex()
         .captures_iter(matching_string)
     {
-        println!("Lazy: {}", &capture[0])
+        println!("Lazy: {}", &capture[0]);
     }
 }
