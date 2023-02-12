@@ -20,7 +20,7 @@ where
     for idx in 1..options.len() {
         regex_string = format!("{}|{}", regex_string, options[idx].to_string())
     }
-    HumanRegex(format!("[(:?{})]", regex_string))
+    HumanRegex(format!("(:?{})", regex_string))
 }
 
 /// Negated [or] relationship between two or more possible matches
@@ -81,6 +81,7 @@ where
     }
     HumanRegex(format!("(:?{})", regex_string))
 }
+
 /// Allows the use of `&` as a syntax sugar for [and]
 /// ```
 /// use human_regex::{text, or, within};
