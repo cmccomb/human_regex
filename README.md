@@ -20,7 +20,7 @@ let regex_string = beginning()
     + end();
 assert!(regex_string.to_regex().is_match("2014-01-01"));
 ```
-We can do this another way with slightly less repetition though!
+The `to_regex()` method returns a [standard Rust regex](https://docs.rs/regex/1.5.4/regex/struct.Regex.html). We can do this another way with slightly less repetition though!
 ```rust
 use human_regex::{beginning, digit, exactly, text, end};
 let first_regex_string = text("-") + exactly(2, digit());
@@ -30,15 +30,15 @@ let second_regex_string = beginning()
     + end();
 assert!(second_regex_string.to_regex().is_match("2014-01-01"));
 ```
-The `to_regex()` method returns a [standard Rust regex](https://docs.rs/regex/1.5.4/regex/struct.Regex.html).
+For a more extensive set of examples, please see [The Cookbook](crate::cookbook).
 
-# Roadmap
-The eventual goal of this crate is to support all the syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. Here is where we currently stand:
+# Features
+This crate currently supports the vast majority of syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. 
 
 ## Single Character
 
 | Implemented?                                | Expression          | Description                                                   |
-|:-------------------------------------------:|:-------------------:|:--------------------------------------------------------------| 
+|:-------------------------------------------:|:-------------------:|:--------------------------------------------------------------|
 | `any()`                                     |         `.`         | any character except new line (includes new line with s flag) |
 | `digit()`                                   |        `\d`         | digit (`\p{Nd}`)                                              |
 | `non_digit()`                               |        `\D`         | not digit                                                     |
@@ -67,7 +67,7 @@ The eventual goal of this crate is to support all the syntax available in the [c
 ## Perl Character Classes
 
 |    Implemented?    | Expression | Description                                                                |
-|:------------------:| :--------: |:---------------------------------------------------------------------------| 
+|:------------------:| :--------: |:---------------------------------------------------------------------------|
 |     `digit()`      |   `\d`     | digit (`\p{Nd}`)                                                           |
 |   `non_digit()`    |   `\D`     | not digit                                                                  |
 |   `whitespace()`   |   `\s`     | whitespace (`\p{White_Space}`)                                             |
