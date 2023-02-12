@@ -36,7 +36,7 @@ pub fn nor<T>(options: &[T]) -> HumanRegex
 where
     T: Into<String> + fmt::Display,
 {
-    HumanRegex(or(options).to_string().replacen("[", "[^", 1))
+    HumanRegex(format!("[{}]", or(options).to_string()).replacen("[", "[^", 1))
 }
 
 /// Xor on two bracketed expressions, also known as symmetric difference.
