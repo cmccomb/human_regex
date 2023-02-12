@@ -37,31 +37,32 @@ The eventual goal of this crate is to support all the syntax available in the [c
 
 ## Single Character
 
-| Implemented?  | Expression  | Description                                                   |
-|:-------------:|:-----------:|:--------------------------------------------------------------| 
-|    `any()`    |     `.`     | any character except new line (includes new line with s flag) |
-|   `digit()`   |    `\d`     | digit (`\p{Nd}`)                                              |
-| `non_digit()` |    `\D`     | not digit                                                     |
-|               |    `\pN`    | One-letter name Unicode character class                       |
-|               | `\p{Greek}` | Unicode character class (general category or script)          |
-|               |    `\PN`    | Negated one-letter name Unicode character class               |
-|               | `\P{Greek}` | negated Unicode character class (general category or script)  |
+| Implemented?                                | Expression          | Description                                                   |
+|:-------------------------------------------:|:-------------------:|:--------------------------------------------------------------| 
+| `any()`                                     |         `.`         | any character except new line (includes new line with s flag) |
+| `digit()`                                   |        `\d`         | digit (`\p{Nd}`)                                              |
+| `non_digit()`                               |        `\D`         | not digit                                                     |
+| `unicode_category(UnicodeCategory)`         |        `\p{L}`      | Unicode non-script category                                   |
+| `unicode_script(UnicodeScript)`             |     `\p{Greek}`     | Unicode script category                                       |
+| `non_unicode_category(UnicodeCategory)`     |        `\P{L}`      | Negated one-letter name Unicode character class               |
+| `non_unicode_script(UnicodeCategory)`       |     `\P{Greek}`     | negated Unicode character class (general category or script)  |
 
 ## Character Classes
 
-|      Implemented?      |   Expression   | Description                                                             |
-|:----------------------:|:--------------:|:------------------------------------------------------------------------|
-| `or(&['x', 'y', 'z'])` |    `[xyz]`     | A character class matching either x, y or z (union).                    |
-|                        |    `[^xyz]`    | A character class matching any character except x, y and z.             |
-|                        |    `[a-z]`     | A character class matching any character in range a-z.                  |
-|       See below        | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                      |                
-|                        | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                             |               
-|         `or()`         |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z) |
-|                        |  `[a-y&&xyz]`  | Intersection (matching x or y)                                          |             
-|                        | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)     |    
-|                        |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4)                              |             
-|                        |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only)                        |          
-|                        |    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                     |         
+|      Implemented?           |   Expression   | Description                                                                         |
+|:---------------------------:|:--------------:|:------------------------------------------------------------------------------------|
+|  `or(&['x', 'y', 'z']) `    |    `[xyz]`     | A character class matching either x, y or z (union).                                |
+|  `nor(&['x', 'y', 'z'])`    |    `[^xyz]`    | A character class matching any character except x, y and z.                         |
+|`within('a'..='z')`          |    `[a-z]`     | A character class matching any character in range a-z.                              |
+|`without('a'..='z')`         |    `[^a-z]`    | A character class matching any character outside range a-z.                         |
+|       See below             | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                                  |                
+|  `non_alphanumeric()`       | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                                         |               
+|         `or()`              |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z)             |
+|      `and(&[])`/`&`         |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
+| `(or[1,2,3,4] & nor(3))`    | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)                 |    
+|    `subtract(&[],&[])`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4). Use .collect::<Vec<char>> to use ranges.|             
+|      `xor(&[],&[])`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only). Requires .collect() for ranges.   |          
+|`or(&escape_all(&['[',']']))`|    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                                 |         
 
 ## Perl Character Classes
 
@@ -114,7 +115,7 @@ The eventual goal of this crate is to support all the syntax available in the [c
 | Implemented? | Expression | Description                     |
 |:------------:|:----------:|:--------------------------------|
 |      `+`     |  `xy`      | concatenation (x followed by y) |
-|    `or()`    |    `x\|y`                              | alternation (x or y, prefer x)  |
+|    `or()`    |    `x\|y`  | alternation (x or y, prefer x)  |
 
 ## Empty matches
 
