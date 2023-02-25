@@ -114,7 +114,7 @@ impl std::ops::Not for HumanRegex<SymbolClass<Standard>> {
             .to_string()
             .chars()
             .nth(1)
-            .expect("Should always be 2 characters in SymbolClass<Standard>")
+            .expect("All classes shorter than 2 characters filtered above")
             .is_lowercase()
         {
             HumanRegex(
