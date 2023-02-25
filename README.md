@@ -33,8 +33,9 @@ assert!(second_regex_string.to_regex().is_match("2014-01-01"));
 For a more extensive set of examples, please see [The Cookbook](crate::cookbook).
 
 # Features
-This crate currently supports the vast majority of syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. 
-
+This crate currently supports the vast majority of syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API.   
+The type model that the API is built upon reflects the underlying syntax rules of regular languages/expressions, meaning you get the same instant compiler feedback you're use to in Rust while writing regex.
+No more runtime regex panics or unexplained behavior, if it compiles, what can plainly read is what you get.
 ## Single Character
 
 | Implemented?                                | Expression          | Description                                                   |
