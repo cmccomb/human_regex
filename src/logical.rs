@@ -107,6 +107,9 @@ impl std::ops::Not for HumanRegex<SymbolClass<Standard>> {
     type Output = Self;
 
     fn not(self) -> Self::Output {
+        if self.to_string().len() < 2 {
+            return self;
+        }
         if self
             .to_string()
             .chars()
