@@ -39,15 +39,17 @@ impl<T> HumanRegex<T> {
     }
 }
 
+/// One of the three fundemental operations on Regular Languages, concatenation!
 /// ```
-/// let regex_string = human_regex::zero_or_one("chris") + human_regex::text("mccomb");
+/// use human_regex::{zero_or_one, text};
+/// let regex_string = zero_or_one(text("chris")) + text("mccomb");
 /// assert!(regex_string.to_regex().is_match("mccomb"));
 /// assert!(regex_string.to_regex().is_match("chrismccomb"));
 /// ```
-impl<T> Add for HumanRegex<T> {
+impl<T, U> Add<HumanRegex<U>> for HumanRegex<T> {
     type Output = HumanRegex<SymbolChain>;
 
-    fn add(self, rhs: Self) -> Self::Output {
+    fn add(self, rhs: HumanRegex<U>) -> Self::Output {
         HumanRegex(
             format!("{}{}", self.to_string(), rhs.to_string()),
             pd::<SymbolChain>,

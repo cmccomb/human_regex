@@ -72,9 +72,8 @@ pub fn non_whitespace() -> HumanRegex<SymbolClass<Standard>> {
 
 /// Matches anything within a range of characters
 ///```
-/// use human_regex::{beginning, end, within};
-/// let regex_string = beginning() + within('a'..='d') + end();
-/// println!("{}", beginning());
+/// use human_regex::{within_range};
+/// let regex_string = within_range('a'..='d');
 /// assert!(regex_string.to_regex().is_match("c"));
 /// assert!(!regex_string.to_regex().is_match("h"));
 ///```
@@ -86,9 +85,8 @@ pub fn within_range(range: std::ops::RangeInclusive<char>) -> HumanRegex<SymbolC
 }
 /// Matches anything outside of a range of characters
 ///```
-/// use human_regex::{beginning, end, without};
-/// let regex_string = beginning() + without('a'..='d') + end();
-/// println!("{}", beginning());
+/// use human_regex::{without_range};
+/// let regex_string = without_range('a'..='d');
 /// assert!(regex_string.to_regex().is_match("h"));
 /// assert!(!regex_string.to_regex().is_match("c"));
 ///```
@@ -99,18 +97,46 @@ pub fn without_range(range: std::ops::RangeInclusive<char>) -> HumanRegex<Symbol
     )
 }
 
+/// Matches anything within a specified set of characters
+/// ```
+/// use human_regex::{text,within_set};
+/// let regex_string = text("gr") + within_set(&['a','e']) + text("y");
+/// assert!(regex_string.to_regex().is_match("gray"));
+/// assert!(regex_string.to_regex().is_match("grey"));
+/// assert!(!regex_string.to_regex().is_match("groy"));
+/// ```
 pub fn within_set<T>(set: &[T]) -> HumanRegex<SymbolClass<Custom>>
 where
-    [T]: Into<String> + fmt::Display,
+    T: Into<String> + fmt::Display,
 {
-    HumanRegex(format!("[{}]", set.to_string()), pd::<SymbolClass<Custom>>)
+    HumanRegex(
+        format!(
+            "[{}]",
+            set.into_iter().map(|c| c.to_string()).collect::<String>()
+        ),
+        pd::<SymbolClass<Custom>>,
+    )
 }
 
+/// Matches anything outside a specified set of characters
+/// ```
+/// use human_regex::{text,without_set};
+/// let regex_string = text("gr") + without_set(&['a','e']) + text("y");
+/// assert!(regex_string.to_regex().is_match("groy"));
+/// assert!(!regex_string.to_regex().is_match("gray"));
+/// assert!(!regex_string.to_regex().is_match("grey"));
+/// ```
 pub fn without_set<T>(set: &[T]) -> HumanRegex<SymbolClass<Custom>>
 where
-    [T]: Into<String> + fmt::Display,
+    T: Into<String> + fmt::Display,
 {
-    HumanRegex(format!("[^{}]", set.to_string()), pd::<SymbolClass<Custom>>)
+    HumanRegex(
+        format!(
+            "[^{}]",
+            set.into_iter().map(|c| c.to_string()).collect::<String>()
+        ),
+        pd::<SymbolClass<Custom>>,
+    )
 }
 
 /// An enum covering all Unicode character categories
@@ -215,10 +241,8 @@ pub fn unicode_category(category: UnicodeCategory) -> HumanRegex<SymbolClass<Sta
 
 /// A function for not matching Unicode character categories. For matching script categories see [non_unicode_script].
 /// ```
-/// use human_regex::{beginning, end, one_or_more, non_unicode_category, UnicodeCategory};
-/// let regex_string = beginning()
-///     + one_or_more(non_unicode_category(UnicodeCategory::CurrencySymbol))
-///     + end();
+/// use human_regex::{one_or_more, non_unicode_category, UnicodeCategory};
+/// let regex_string =one_or_more(non_unicode_category(UnicodeCategory::CurrencySymbol));
 /// assert!(regex_string.to_regex().is_match("normal words"));
 /// assert!(!regex_string.to_regex().is_match("$¥₹"));
 /// ```
@@ -343,9 +367,7 @@ pub fn unicode_script(category: UnicodeScript) -> HumanRegex<SymbolClass<Standar
 /// A function for matching Unicode characters not belonging to a certain script category. For matching other categories see [non_unicode_category].
 /// ```
 /// use human_regex::{beginning, end, one_or_more, non_unicode_script, UnicodeScript};
-/// let regex_string = beginning()
-///     + one_or_more(non_unicode_script(UnicodeScript::Han))
-///     + end();
+/// let regex_string =one_or_more(non_unicode_script(UnicodeScript::Han));
 /// assert!(regex_string.to_regex().is_match("latin text"));
 /// assert!(!regex_string.to_regex().is_match("蟹"));
 /// ```
