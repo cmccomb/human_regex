@@ -52,14 +52,14 @@ No more runtime regex panics or unexplained behavior, if it compiles, what can p
 
 |      Implemented?            |   Expression   | Description                                                                         |
 |:----------------------------:|:--------------:|:------------------------------------------------------------------------------------|
-|`within_set(&['x', 'y', 'z'])`|    `[xyz]`     | A character class matching either x, y or z (union).                                |
+|`within_set(&['x', 'y', 'z'])`|    `[xyz]`     | A character class matching either x, y or z.                                        |
 |`wthout_set(&['x', 'y', 'z'])`|    `[^xyz]`    | A character class matching any character except x, y and z.                         |
 |`within_range('a'..='z')`     |    `[a-z]`     | A character class matching any character in range a-z.                              |
 |`without_range('a'..='z')`    |    `[^a-z]`    | A character class matching any character outside range a-z.                         |
 |       See below              | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                                  |                
 |  `non_alphanumeric()`        | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                                         |               
 |`within_set()`                |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z)             |
-|      `and(lhs, rhs)`/`&`     |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
+|  `and(lhs, rhs)`/`lhs & rhs` |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
 |`within_range()&without_set()`| `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)                 |    
 |    `subtract(lhs, rhs)`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4). Use .collect::<Vec<char>> to use ranges.|             
 |      `xor(lhs, rhs)`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only). Requires .collect() for ranges.   |          
