@@ -1,6 +1,7 @@
 //! Functions for capturing matches
 
-use super::humanregex::HumanRegex;
+use super::humanregex::*;
+use std::marker::PhantomData as pd;
 
 /// Add a numbered capturing group around an expression
 /// ```
@@ -18,8 +19,8 @@ use super::humanregex::HumanRegex;
 /// assert_eq!("14", caps.get(3).unwrap().as_str());
 /// ```
 
-pub fn capture(target: HumanRegex) -> HumanRegex {
-    HumanRegex(format!("({})", target))
+pub fn capture<T>(target: HumanRegex<T>) -> HumanRegex<SymbolChain> {
+    HumanRegex(format!("({})", target), pd::<SymbolChain>)
 }
 
 /// Add a named capturing group around an expression
@@ -36,6 +37,6 @@ pub fn capture(target: HumanRegex) -> HumanRegex {
 /// assert_eq!("03", &caps["month"]);
 /// assert_eq!("14", &caps["day"]);
 /// ```
-pub fn named_capture(target: HumanRegex, name: &str) -> HumanRegex {
-    HumanRegex(format!("(?P<{}>{})", name, target))
+pub fn named_capture<T>(target: HumanRegex<T>, name: &str) -> HumanRegex<SymbolChain> {
+    HumanRegex(format!("(?P<{}>{})", name, target), pd::<SymbolChain>)
 }

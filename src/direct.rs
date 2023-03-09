@@ -1,7 +1,8 @@
 //! Functions for directly matching text or adding known regex strings
 
-use super::humanregex::{fmt, HumanRegex};
+use super::humanregex::*;
 use regex::escape;
+use std::marker::PhantomData as pd;
 
 /// Add matching text to the regex string. Text that is added through this function is automatically escaped.
 /// ```
@@ -9,11 +10,14 @@ use regex::escape;
 /// assert!(regex_string.to_regex().is_match("asdf"));
 /// assert!(!regex_string.to_regex().is_match("asddf"));
 /// ```
-pub fn text<T>(text: T) -> HumanRegex
+pub fn text<T>(text: T) -> HumanRegex<LiteralSymbolChain>
 where
     T: Into<String> + fmt::Display,
 {
-    HumanRegex(format!("(?:{})", escape(&*text.to_string())))
+    HumanRegex(
+        format!("(?:{})", escape(&*text.to_string())),
+        pd::<LiteralSymbolChain>,
+    )
 }
 
 /// Escapes an entire list for use in something like an [or] or an [and] expression.
@@ -30,15 +34,7 @@ where
 {
     options
         .iter()
-        .map(|string| {
-            string
-                .to_string()
-                .replace("-", r"\-")
-                .replace("[", r"\[")
-                .replace("]", r"\]")
-                .replace("{", r"\{")
-                .replace("}", r"\}")
-        })
+        .map(|string| escape(&string.to_string()))
         .collect()
 }
 
@@ -49,6 +45,6 @@ where
 /// assert!(regex_string.to_regex().is_match("21"));
 /// assert!(!regex_string.to_regex().is_match("007"));
 /// ```
-pub fn nonescaped_text(text: &str) -> HumanRegex {
-    HumanRegex(format!("(?:{})", text.to_string()))
+pub fn nonescaped_text(text: &str) -> HumanRegex<SymbolChain> {
+    HumanRegex(format!("(?:{})", text.to_string()), pd::<SymbolChain>)
 }
