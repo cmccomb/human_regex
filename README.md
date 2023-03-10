@@ -61,8 +61,8 @@ No more runtime regex panics or unexplained behavior, if it compiles, what can p
 |`within_set()`                |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z)             |
 |  `and(lhs, rhs)`/`lhs & rhs` |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
 |`within_range()&without_set()`| `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)                 |    
-|    `subtract(lhs, rhs)`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4). Use .collect::<Vec<char>> to use ranges.|             
-|      `xor(lhs, rhs)`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only). Requires .collect() for ranges.   |          
+|    `subtract(lhs, rhs)`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4).                                         |             
+|      `xor(lhs, rhs)`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only).                                   |          
 |`within_set(&escape_all())`   |    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                                 |         
 
 ## Perl Character Classes
