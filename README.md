@@ -33,8 +33,9 @@ assert!(second_regex_string.to_regex().is_match("2014-01-01"));
 For a more extensive set of examples, please see [The Cookbook](crate::cookbook).
 
 # Features
-This crate currently supports the vast majority of syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API. 
-
+This crate currently supports the vast majority of syntax available in the [core Rust regex library](https://crates.io/crates/regex) through a human-readable API.   
+The type model that the API is built upon reflects the underlying syntax rules of regular languages/expressions, meaning you get the same instant compiler feedback you're use to in Rust while writing regex.
+No more runtime regex panics or unexplained behavior, if it compiles, what can plainly read is what you get.
 ## Single Character
 
 | Implemented?                                | Expression          | Description                                                   |
@@ -49,20 +50,20 @@ This crate currently supports the vast majority of syntax available in the [core
 
 ## Character Classes
 
-|      Implemented?           |   Expression   | Description                                                                         |
-|:---------------------------:|:--------------:|:------------------------------------------------------------------------------------|
-|  `or(&['x', 'y', 'z']) `    |    `[xyz]`     | A character class matching either x, y or z (union).                                |
-|  `nor(&['x', 'y', 'z'])`    |    `[^xyz]`    | A character class matching any character except x, y and z.                         |
-|`within('a'..='z')`          |    `[a-z]`     | A character class matching any character in range a-z.                              |
-|`without('a'..='z')`         |    `[^a-z]`    | A character class matching any character outside range a-z.                         |
-|       See below             | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                                  |                
-|  `non_alphanumeric()`       | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                                         |               
-|         `or()`              |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z)             |
-|      `and(&[])`/`&`         |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
-| `(or[1,2,3,4] & nor(3))`    | `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)                 |    
-|    `subtract(&[],&[])`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4). Use .collect::<Vec<char>> to use ranges.|             
-|      `xor(&[],&[])`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only). Requires .collect() for ranges.   |          
-|`or(&escape_all(&['[',']']))`|    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                                 |         
+|      Implemented?            |   Expression   | Description                                                                         |
+|:----------------------------:|:--------------:|:------------------------------------------------------------------------------------|
+|`within_set(&['x', 'y', 'z'])`|    `[xyz]`     | A character class matching either x, y or z.                                        |
+|`wthout_set(&['x', 'y', 'z'])`|    `[^xyz]`    | A character class matching any character except x, y and z.                         |
+|`within_range('a'..='z')`     |    `[a-z]`     | A character class matching any character in range a-z.                              |
+|`without_range('a'..='z')`    |    `[^a-z]`    | A character class matching any character outside range a-z.                         |
+|       See below              | `[[:alpha:]]`  | ASCII character class (`[A-Za-z]`)                                                  |                
+|  `non_alphanumeric()`        | `[[:^alpha:]]` | Negated ASCII character class (`[^A-Za-z]`)                                         |               
+|`within_set()`                |  `[x[^xyz]]`   | Nested/grouping character class (matching any character except y and z)             |
+|  `and(lhs, rhs)`/`lhs & rhs` |  `[a-y&&xyz]`  | Intersection (a-y AND xyz = xy)                                                     |             
+|`within_range()&without_set()`| `[0-9&&[^4]]`  | Subtraction using intersection and negation (matching 0-9 except 4)                 |    
+|    `subtract(lhs, rhs)`      |   `[0-9--4]`   | Direct subtraction (matching 0-9 except 4).                                         |             
+|      `xor(lhs, rhs)`         |  `[a-g~~b-h]`  | Symmetric difference (matching `a` and `h` only).                                   |          
+|`within_set(&escape_all())`   |    `[\[\]]`    | Escaping in character classes (matching `[` or `]`)                                 |         
 
 ## Perl Character Classes
 
@@ -110,12 +111,13 @@ This crate currently supports the vast majority of syntax available in the [core
 | `between(n, m, x).lazy()` | `x{n,m}?`  | at least n x and at most m x (ungreedy/lazy) |
 |  `at_least(n, x).lazy()`  |  `x{n,}?`  | at least n x (ungreedy/lazy)                 |
 
-## Composites
+## General Operations
 
-| Implemented? | Expression | Description                     |
-|:------------:|:----------:|:--------------------------------|
-|      `+`     |  `xy`      | concatenation (x followed by y) |
-|    `or()`    |    `x\|y`  | alternation (x or y, prefer x)  |
+| Implemented? | Expression                   | Description                                                         |
+|:------------:|:----------------------------:|:--------------------------------------------------------------------|
+|      `+`     |  `xy`                        | concatenation (x followed by y)                                     |
+|    `or()`    |    `x\|y`                    | alternation (x or y, prefer x)                                      |
+|      `!`     |`\d->\D`, `[xy]->[^xy]`, etc. | negation (works on any character class, or literal strings of text).|
 
 ## Empty matches
 
