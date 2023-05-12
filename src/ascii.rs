@@ -4,41 +4,105 @@ use super::humanregex::*;
 use std::marker::PhantomData as pd;
 
 /// A function to match any alphanumeric character (`[0-9A-Za-z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::alphanumeric();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1"));
+/// ```
 pub fn alphanumeric() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:alnum:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any non-alphanumeric character (`[^0-9A-Za-z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_alphanumeric();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// ```
 pub fn non_alphanumeric() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^alnum:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any alphabetic character (`[A-Za-z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::alphabetic();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// ```
 pub fn alphabetic() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:alpha:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any non-alphabetic character (`[^A-Za-z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_alphabetic();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1"));
+/// ```
 pub fn non_alphabetic() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^alpha:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any lowercase character (`[a-z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::lowercase();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// ```
 pub fn lowercase() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:lower:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any non-lowercase character (`[^a-z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_lowercase();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1"));
+/// ```
 pub fn non_lowercase() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^lower:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any uppercase character (`[A-Z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::uppercase();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// ```
 pub fn uppercase() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:upper:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any non-uppercase character (`[^A-Z]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_uppercase();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1"));
+/// ```
 pub fn non_uppercase() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^upper:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
