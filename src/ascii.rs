@@ -234,11 +234,35 @@ pub fn non_control() -> HumanRegex<SymbolClass<Ascii>> {
 }
 
 /// A function to match graphical characters (`[!-~]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::graphical();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1"));
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
+/// ```
 pub fn graphical() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:graph:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match non-graphical characters (`[^!-~]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_graphical();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
+/// ```
 pub fn non_graphical() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^graph:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
