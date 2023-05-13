@@ -11,6 +11,10 @@ use std::marker::PhantomData as pd;
 /// assert!(regex_string.to_regex().is_match("a"));
 /// assert!(regex_string.to_regex().is_match("A"));
 /// assert!(regex_string.to_regex().is_match("1"));
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn alphanumeric() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:alnum:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -24,6 +28,10 @@ pub fn alphanumeric() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("a").not());
 /// assert!(regex_string.to_regex().is_match("A").not());
 /// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn non_alphanumeric() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^alnum:]]".to_string(), pd::<SymbolClass<Ascii>>)
