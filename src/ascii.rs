@@ -224,6 +224,7 @@ pub fn non_ascii() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("¡").not());
 /// assert!(regex_string.to_regex().is_match("!").not());
 /// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn blank() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:blank:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -240,6 +241,7 @@ pub fn blank() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("¡"));
 /// assert!(regex_string.to_regex().is_match("!"));
 /// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn non_blank() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^blank:]]".to_string(), pd::<SymbolClass<Ascii>>)
