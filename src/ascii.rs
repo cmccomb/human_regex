@@ -108,11 +108,31 @@ pub fn non_uppercase() -> HumanRegex<SymbolClass<Ascii>> {
 }
 
 /// A function to match any digit that would appear in a hexadecimal number (`[A-Fa-f0-9]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::hexdigit();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("g").not());
+/// assert!(regex_string.to_regex().is_match("G").not());
+/// assert!(regex_string.to_regex().is_match("1"));
+/// ```
 pub fn hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:xdigit:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match any digit that wouldn't appear in a hexadecimal number (`[^A-Fa-f0-9]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_hexdigit();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("g"));
+/// assert!(regex_string.to_regex().is_match("G"));
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// ```
 pub fn non_hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^xdigit:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
