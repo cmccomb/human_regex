@@ -185,7 +185,6 @@ pub fn non_hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("a"));
 /// assert!(regex_string.to_regex().is_match("A"));
 /// assert!(regex_string.to_regex().is_match("1"));
-/// assert!(regex_string.to_regex().is_match("!"));
 /// assert!(regex_string.to_regex().is_match("¡").not());
 /// assert!(regex_string.to_regex().is_match("!"));
 /// assert!(regex_string.to_regex().is_match(" "));
@@ -203,7 +202,6 @@ pub fn ascii() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("a").not());
 /// assert!(regex_string.to_regex().is_match("G").not());
 /// assert!(regex_string.to_regex().is_match("1").not());
-/// assert!(regex_string.to_regex().is_match("!").not());
 /// assert!(regex_string.to_regex().is_match("¡"));
 /// assert!(regex_string.to_regex().is_match("!").not());
 /// assert!(regex_string.to_regex().is_match(" ").not());
@@ -224,7 +222,7 @@ pub fn non_ascii() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("¡").not());
 /// assert!(regex_string.to_regex().is_match("!").not());
 /// assert!(regex_string.to_regex().is_match(" "));
-/// assert!(regex_string.to_regex().is_match("\n"));
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn blank() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:blank:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -241,7 +239,7 @@ pub fn blank() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("¡"));
 /// assert!(regex_string.to_regex().is_match("!"));
 /// assert!(regex_string.to_regex().is_match(" ").not());
-/// assert!(regex_string.to_regex().is_match("\n").not());
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn non_blank() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^blank:]]".to_string(), pd::<SymbolClass<Ascii>>)
