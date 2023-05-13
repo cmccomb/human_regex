@@ -149,6 +149,10 @@ pub fn non_uppercase() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("g").not());
 /// assert!(regex_string.to_regex().is_match("G").not());
 /// assert!(regex_string.to_regex().is_match("1"));
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:xdigit:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -164,6 +168,10 @@ pub fn hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("g"));
 /// assert!(regex_string.to_regex().is_match("G"));
 /// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn non_hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^xdigit:]]".to_string(), pd::<SymbolClass<Ascii>>)
