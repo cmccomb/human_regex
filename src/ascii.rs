@@ -230,6 +230,17 @@ pub fn non_printable() -> HumanRegex<SymbolClass<Ascii>> {
 }
 
 /// A function to match punctuation (`[!-/:-@\[-`{-~]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::punctuation();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// ```
 pub fn punctuation() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:punct:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
