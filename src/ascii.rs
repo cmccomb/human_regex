@@ -168,11 +168,33 @@ pub fn non_ascii() -> HumanRegex<SymbolClass<Ascii>> {
 }
 
 /// A function to match blank characters (`[\t ]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::blank();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" "));
+/// ```
 pub fn blank() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:blank:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match non-blank characters (`[^\t ]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_blank();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1"));
+/// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// ```
 pub fn non_blank() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^blank:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
