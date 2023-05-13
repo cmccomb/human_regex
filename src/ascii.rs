@@ -200,11 +200,35 @@ pub fn non_blank() -> HumanRegex<SymbolClass<Ascii>> {
 }
 
 /// A function to match control characters (`[\x00-\x1F\x7F]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::control();
+/// assert!(regex_string.to_regex().is_match("[").not());
+/// assert!(regex_string.to_regex().is_match("a").not());
+/// assert!(regex_string.to_regex().is_match("A").not());
+/// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n"));
+/// ```
 pub fn control() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:cntrl:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
 /// A function to match non-control characters (`[^\x00-\x1F\x7F]`)
+/// ```
+/// use std::ops::Not;
+/// let regex_string = human_regex::non_control();
+/// assert!(regex_string.to_regex().is_match("["));
+/// assert!(regex_string.to_regex().is_match("a"));
+/// assert!(regex_string.to_regex().is_match("A"));
+/// assert!(regex_string.to_regex().is_match("1"));
+/// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n").not());
+/// ```
 pub fn non_control() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^cntrl:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
