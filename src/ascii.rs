@@ -312,6 +312,7 @@ pub fn non_printable() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("¡").not());
 /// assert!(regex_string.to_regex().is_match("!"));
 /// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn punctuation() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:punct:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -328,6 +329,7 @@ pub fn punctuation() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("¡"));
 /// assert!(regex_string.to_regex().is_match("!").not());
 /// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn non_punctuation() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^punct:]]".to_string(), pd::<SymbolClass<Ascii>>)
