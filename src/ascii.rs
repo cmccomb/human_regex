@@ -187,6 +187,9 @@ pub fn non_hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("1"));
 /// assert!(regex_string.to_regex().is_match("!"));
 /// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn ascii() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:ascii:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -202,6 +205,9 @@ pub fn ascii() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("1").not());
 /// assert!(regex_string.to_regex().is_match("!").not());
 /// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn non_ascii() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^ascii:]]".to_string(), pd::<SymbolClass<Ascii>>)
