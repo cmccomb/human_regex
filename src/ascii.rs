@@ -45,6 +45,10 @@ pub fn non_alphanumeric() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("a"));
 /// assert!(regex_string.to_regex().is_match("A"));
 /// assert!(regex_string.to_regex().is_match("1").not());
+/// assert!(regex_string.to_regex().is_match("¡").not());
+/// assert!(regex_string.to_regex().is_match("!").not());
+/// assert!(regex_string.to_regex().is_match(" ").not());
+/// assert!(regex_string.to_regex().is_match("\n").not());
 /// ```
 pub fn alphabetic() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:alpha:]]".to_string(), pd::<SymbolClass<Ascii>>)
@@ -58,6 +62,10 @@ pub fn alphabetic() -> HumanRegex<SymbolClass<Ascii>> {
 /// assert!(regex_string.to_regex().is_match("a").not());
 /// assert!(regex_string.to_regex().is_match("A").not());
 /// assert!(regex_string.to_regex().is_match("1"));
+/// assert!(regex_string.to_regex().is_match("¡"));
+/// assert!(regex_string.to_regex().is_match("!"));
+/// assert!(regex_string.to_regex().is_match(" "));
+/// assert!(regex_string.to_regex().is_match("\n"));
 /// ```
 pub fn non_alphabetic() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^alpha:]]".to_string(), pd::<SymbolClass<Ascii>>)
