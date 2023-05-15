@@ -22,8 +22,12 @@ pub struct LiteralSymbolChain;
 /// Represents the state when [HumanRegex] is a wrapper for any arbitrary regular expression
 pub struct SymbolChain;
 
-/// The HumanRegex struct which maintains and updates the regex string.
-/// For most use cases it will never be necessary to instantiate this directly.
+/// Represents the state when [HumanRegex] is a wrapper for any arbitrary regular expression that
+/// can be converted to a lazy match with the `lazy` method, compared to the `greedy` default.
+pub struct Lazyable;
+
+/// The HumanRegex struct which maintains and updates the regex string. For most use cases it will
+/// never be necessary to instantiate this directly.
 #[derive(Debug)]
 pub struct HumanRegex<T = SymbolChain>(pub String, pub std::marker::PhantomData<T>);
 
@@ -32,10 +36,19 @@ impl<T> HumanRegex<T> {
     pub fn to_regex(&self) -> Regex {
         Regex::new(&*self.0).unwrap()
     }
+}
 
-    /// Add a lazy modifier
-    pub fn lazy(&self) -> HumanRegex<T> {
-        HumanRegex(format!("{}?", &*self.0), pd::<T>)
+impl HumanRegex<Lazyable> {
+    /// Add a lazy modifier to repetition matches
+    /// ```
+    /// let belazybro = human_regex::at_least(2, human_regex::text("asdf")).lazy();
+    /// ```
+    /// However, some things cannot be made lazy! The following will not build:
+    /// ```ignore
+    /// let nocandohomie = human_regex::text("asdf").lazy();
+    /// ```
+    pub fn lazy(&self) -> HumanRegex<SymbolChain> {
+        HumanRegex(format!("{}?", &*self.0), pd::<SymbolChain>)
     }
 }
 
