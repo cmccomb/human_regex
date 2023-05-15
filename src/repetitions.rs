@@ -10,8 +10,8 @@ use std::marker::PhantomData as pd;
 /// assert!(regex_string.to_regex().is_match("aaaa"));
 /// assert!(!regex_string.to_regex().is_match("aa"));
 /// ```
-pub fn at_least<T>(n: u8, target: HumanRegex<T>) -> HumanRegex<Lazyable> {
-    HumanRegex(format!("(?:{}){{{},}}", target, n), pd::<Lazyable>)
+pub fn at_least<T>(n: u8, target: HumanRegex<T>) -> HumanRegex<Quantifier> {
+    HumanRegex(format!("(?:{}){{{},}}", target, n), pd::<Quantifier>)
 }
 
 /// Match at least _n_ and at most _m_ of a certain target
@@ -21,8 +21,8 @@ pub fn at_least<T>(n: u8, target: HumanRegex<T>) -> HumanRegex<Lazyable> {
 /// assert!(regex_string.to_regex().is_match("aaaa"));
 /// assert!(!regex_string.to_regex().is_match("aa"));
 /// ```
-pub fn between<T>(n: u8, m: u8, target: HumanRegex<T>) -> HumanRegex<Lazyable> {
-    HumanRegex(format!("(?:{}){{{},{}}}", target, n, m), pd::<Lazyable>)
+pub fn between<T>(n: u8, m: u8, target: HumanRegex<T>) -> HumanRegex<Quantifier> {
+    HumanRegex(format!("(?:{}){{{},{}}}", target, n, m), pd::<Quantifier>)
 }
 
 /// Match one or more of a certain target
@@ -32,8 +32,8 @@ pub fn between<T>(n: u8, m: u8, target: HumanRegex<T>) -> HumanRegex<Lazyable> {
 /// assert!(regex_string.to_regex().is_match("aaaa"));
 /// assert!(!regex_string.to_regex().is_match("bb"));
 /// ```
-pub fn one_or_more<T>(target: HumanRegex<T>) -> HumanRegex<Lazyable> {
-    HumanRegex(format!("(?:{})+", target), pd::<Lazyable>)
+pub fn one_or_more<T>(target: HumanRegex<T>) -> HumanRegex<Quantifier> {
+    HumanRegex(format!("(?:{})+", target), pd::<Quantifier>)
 }
 
 /// Match zero or more of a certain target
@@ -44,8 +44,8 @@ pub fn one_or_more<T>(target: HumanRegex<T>) -> HumanRegex<Lazyable> {
 /// assert!(regex_string.to_regex().is_match("aaaaa"));
 /// assert!(regex_string.to_regex().is_match("bb"));
 /// ```
-pub fn zero_or_more<T>(target: HumanRegex<T>) -> HumanRegex<Lazyable> {
-    HumanRegex(format!("(?:{})*", target), pd::<Lazyable>)
+pub fn zero_or_more<T>(target: HumanRegex<T>) -> HumanRegex<Quantifier> {
+    HumanRegex(format!("(?:{})*", target), pd::<Quantifier>)
 }
 
 /// Match zero or one of a certain target
@@ -55,8 +55,8 @@ pub fn zero_or_more<T>(target: HumanRegex<T>) -> HumanRegex<Lazyable> {
 /// assert!(regex_string.to_regex().is_match("a"));
 /// assert!(regex_string.to_regex().is_match("bb"));
 /// ```
-pub fn zero_or_one<T>(target: HumanRegex<T>) -> HumanRegex<Lazyable> {
-    HumanRegex(format!("(?:{})?", target), pd::<Lazyable>)
+pub fn zero_or_one<T>(target: HumanRegex<T>) -> HumanRegex<Quantifier> {
+    HumanRegex(format!("(?:{})?", target), pd::<Quantifier>)
 }
 
 /// Match exactly _n_ of a certain target
@@ -66,6 +66,6 @@ pub fn zero_or_one<T>(target: HumanRegex<T>) -> HumanRegex<Lazyable> {
 /// assert!(regex_string.to_regex().is_match("aaaaa"));
 /// assert!(!regex_string.to_regex().is_match("aaa"));
 /// ```
-pub fn exactly<T>(n: u8, target: HumanRegex<T>) -> HumanRegex<Lazyable> {
-    HumanRegex(format!("(?:{}){{{}}}", target, n), pd::<Lazyable>)
+pub fn exactly<T>(n: u8, target: HumanRegex<T>) -> HumanRegex<Quantifier> {
+    HumanRegex(format!("(?:{}){{{}}}", target, n), pd::<Quantifier>)
 }
