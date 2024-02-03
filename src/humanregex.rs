@@ -1,3 +1,5 @@
+//! The bread and butter type system and basic operations.
+
 use regex::Regex;
 
 pub(crate) use std::fmt;
@@ -35,7 +37,7 @@ pub struct HumanRegex<T = SymbolChain>(pub String, pub std::marker::PhantomData<
 impl<T> HumanRegex<T> {
     /// Convert to a rust Regex
     pub fn to_regex(&self) -> Regex {
-        Regex::new(&*self.0).unwrap()
+        Regex::new(&self.0).unwrap()
     }
 }
 
@@ -49,7 +51,7 @@ impl HumanRegex<Quantifier> {
     /// let lazy_regex = human_regex::text("asdf").lazy();
     /// ```
     pub fn lazy(&self) -> HumanRegex<SymbolChain> {
-        HumanRegex(format!("{}?", &*self.0), pd::<SymbolChain>)
+        HumanRegex(format!("{}?", &self.0), pd::<SymbolChain>)
     }
 }
 

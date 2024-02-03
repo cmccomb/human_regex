@@ -1,9 +1,12 @@
 //! Functions for performing logical operations
 
 use super::humanregex::*;
-use std::marker::PhantomData as pd;
+use std::{marker::PhantomData as pd, ops::BitOr};
 
-/// A function for establishing an OR relationship between two or more possible matches
+/// A function for establishing an OR relationship between two or more possible matches.
+///
+/// This explicit function is meant to be used to quickly "or" together RegExes of the same type.
+/// If you need to perform an OR operation on expressions of differing types, use the [BitOr] ("|") operator.
 /// ```
 /// use human_regex::{text, logical::or};
 /// let regex_string = text("gr") + or(&[text("a"), text("e")]) + text("y");
@@ -12,18 +15,32 @@ use std::marker::PhantomData as pd;
 /// assert!(regex_string.to_regex().is_match("gray"));
 /// assert!(!regex_string.to_regex().is_match("graey"));
 /// ```
-pub fn or<T>(options: &[T]) -> HumanRegex<SymbolChain>
-where
-    T: Into<String> + fmt::Display,
-{
-    let mut regex_string = format!("{}", options[0].to_string());
-    for idx in 1..options.len() {
-        regex_string = format!("{}|{}", regex_string, options[idx].to_string())
+pub fn or<T>(expressions: &[HumanRegex<T>]) -> HumanRegex<SymbolChain> {
+    let mut regex_string = format!("{}", expressions[0].to_string());
+    for expression in expressions.iter().skip(1) {
+        regex_string = format!("{}|{}", regex_string, expression.to_string())
     }
     HumanRegex(format!("(:?{})", regex_string), pd::<SymbolChain>)
 }
 
-/// Xor on two [SymbolClass]es, also known as symmetric difference.
+/// Binary OR on any two expressions.
+///
+/// If you need to do a batch OR, try [or].
+/// ```
+/// use human_regex::{text, one_or_more};
+/// let expr = text("w") + (one_or_more(text("o"))+text("w"))|(text("oah"));
+/// assert!(expr.to_regex().is_match("wow"));
+/// assert!(expr.to_regex().is_match("woooooow"));
+/// assert!(expr.to_regex().is_match("woah"));
+/// ```
+impl<T, U> BitOr<HumanRegex<U>> for HumanRegex<T> {
+    type Output = HumanRegex<SymbolChain>;
+    fn bitor(self, rhs: HumanRegex<U>) -> Self::Output {
+        HumanRegex(format!("(:?{}|{})", self, rhs), pd::<SymbolChain>)
+    }
+}
+
+/// Xor on two SymbolClasses, also known as symmetric difference.
 ///
 /// ```
 /// use human_regex::{xor, within_range};
@@ -152,7 +169,7 @@ impl std::ops::Not for HumanRegex<SymbolClass<Custom>> {
             != '^'
         {
             HumanRegex(
-                self.to_string().replace("[", "[^"),
+                self.to_string().replace('[', "[^"),
                 pd::<SymbolClass<Custom>>,
             )
         } else {
@@ -195,7 +212,6 @@ impl std::ops::Not for HumanRegex<LiteralSymbolChain> {
         HumanRegex(
             self.to_string()
                 .chars()
-                .into_iter()
                 .map(|chr| format!("[^{}]", chr))
                 .collect::<String>(),
             pd::<SymbolChain>,

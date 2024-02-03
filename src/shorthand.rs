@@ -112,7 +112,7 @@ where
     HumanRegex(
         format!(
             "[{}]",
-            set.into_iter().map(|c| c.to_string()).collect::<String>()
+            set.iter().map(|c| c.to_string()).collect::<String>()
         ),
         pd::<SymbolClass<Custom>>,
     )
@@ -133,7 +133,7 @@ where
     HumanRegex(
         format!(
             "[^{}]",
-            set.into_iter().map(|c| c.to_string()).collect::<String>()
+            set.iter().map(|c| c.to_string()).collect::<String>()
         ),
         pd::<SymbolClass<Custom>>,
     )
@@ -237,17 +237,6 @@ pub fn unicode_category(category: UnicodeCategory) -> HumanRegex<SymbolClass<Sta
         },
         pd::<SymbolClass<Standard>>,
     )
-}
-
-/// A function for not matching Unicode character categories. For matching script categories see [non_unicode_script].
-/// ```
-/// use human_regex::{one_or_more, non_unicode_category, UnicodeCategory};
-/// let regex_string =one_or_more(non_unicode_category(UnicodeCategory::CurrencySymbol));
-/// assert!(regex_string.to_regex().is_match("normal words"));
-/// assert!(!regex_string.to_regex().is_match("$¥₹"));
-/// ```
-pub fn non_unicode_category(category: UnicodeCategory) -> HumanRegex<SymbolClass<Standard>> {
-    !unicode_category(category)
 }
 
 /// An enum for covering all Unicode script categories
@@ -362,15 +351,4 @@ pub fn unicode_script(category: UnicodeScript) -> HumanRegex<SymbolClass<Standar
         },
         pd::<SymbolClass<Standard>>,
     )
-}
-
-/// A function for matching Unicode characters not belonging to a certain script category. For matching other categories see [non_unicode_category].
-/// ```
-/// use human_regex::{beginning, end, one_or_more, non_unicode_script, UnicodeScript};
-/// let regex_string =one_or_more(non_unicode_script(UnicodeScript::Han));
-/// assert!(regex_string.to_regex().is_match("latin text"));
-/// assert!(!regex_string.to_regex().is_match("蟹"));
-/// ```
-pub fn non_unicode_script(category: UnicodeScript) -> HumanRegex<SymbolClass<Standard>> {
-    !unicode_script(category)
 }
