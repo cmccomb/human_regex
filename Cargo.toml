@@ -1,7 +1,7 @@
 [package]
 name = "human_regex"
 version = "0.3.0"
-authors = ["Chris McComb <ccmcc2012@gmail.com>"]
+authors = ["Chris McComb <ccmcc2012@gmail.com>", "Izzy McDonald <izzym@pacificbird.dev>"]
 description = "A regex library for humans"
 edition = "2021"
 readme = "README.md"

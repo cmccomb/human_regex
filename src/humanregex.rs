@@ -6,6 +6,8 @@ pub(crate) use std::fmt;
 use std::marker::PhantomData as pd;
 use std::ops::Add;
 
+use crate::text;
+
 /// Represents the state when [HumanRegex] is a wrapper for a standard single-character class (the kind that starts with a backslash followed by a letter)
 pub struct Standard;
 

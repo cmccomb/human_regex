@@ -85,7 +85,7 @@ No more runtime regex panics or unexplained behavior, if it compiles, what can p
 |[`graphical()`]   | `[[:graph:]]`  | graphical (`[!-~]`)               |
 |[`uppercase()`]   | `[[:lower:]]`  | lower case (`[a-z]`)              |
 |[`printable()`]   | `[[:print:]]`  | printable (`[ -~]`)               |
-|[punctuation()`]  | `[[:punct:]]`  | punctuation (``[!-/:-@\[-`{-~]``) |
+|[`punctuation()`] | `[[:punct:]]`  | punctuation (``[!-/:-@\[-`{-~]``) |
 |[`whitespace()`]  | `[[:space:]]`  | whitespace (`[\t\n\v\f\r ]`)      |
 |[`lowercase()`]   | `[[:upper:]]`  | upper case (`[A-Z]`)              |
 |[`word()`]        |  `[[:word:]]`  | word characters (`[0-9A-Za-z_]`)  |
@@ -95,24 +95,19 @@ No more runtime regex panics or unexplained behavior, if it compiles, what can p
 
 |       Implementation                        | Expression | Description                                  |
 |:-------------------------------------------:|:----------:|:---------------------------------------------|
-|[`zero_or_more(x)`](zero_or_more)            |    `x*`    | zero or more of x (greedy)                   |
-|[`one_or_more(x)`](one_or_more)              |    `x+`    | one or more of x (greedy)                    |
-|[`zero_or_one(x)`](zero_or_one)              |    `x?`    | zero or one of x (greedy)                    |
-|[`zero_or_more(x)`](zero_or_more)            |   `x*?`    | zero or more of x (ungreedy/lazy)            |
-|[`one_or_more(x).lazy()`](HumanRegex::lazy)  |   `x+?`    | one or more of x (ungreedy/lazy)             |
-|[`zero_or_more(x).lazy()`](HumanRegex::lazy) |   `x??`    | zero or one of x (ungreedy/lazy)             |
-|[`between(n, m, x)`](between)                |  `x{n,m}`  | at least n x and at most m x (greedy)        |
-|[`at_least(n, x)`](at_least)                 |  `x{n,}`   | at least n x (greedy)                        |
+|[`zero_or_more(x)`](zero_or_more)            |    `x*`    | zero or more of x                            |
+|[`one_or_more(x)`](one_or_more)              |    `x+`    | one or more of x                             |
+|[`zero_or_one(x)`](zero_or_one)              |    `x?`    | zero or one of x                             |
+|[`between(n, m, x)`](between)                |  `x{n,m}`  | at least n x and at most m x                 |
+|[`at_least(n, x)`](at_least)                 |  `x{n,}`   | at least n x                                 |
 |[`exactly(n, x)`](exactly)                   |   `x{n}`   | exactly n x                                  |
-|[`between(n, m, x).lazy()`](HumanRegex::lazy)| `x{n,m}?`  | at least n x and at most m x (ungreedy/lazy) |
-|[`at_least(n, x).lazy()`](HumanRegex::lazy)  |  `x{n,}?`  | at least n x (ungreedy/lazy)                 |
 
 ## General Operations
 
 |Implementation        | Expression                   | Description                                                         |
 |:--------------------:|:----------------------------:|:--------------------------------------------------------------------|
 |[`+`](std::ops::Add)  |  `xy`                        | concatenation (x followed by y)                                     |
-|[`⎮`](std::ops::BitOr)|    `x⎮y`                    | alternation (x or y, prefer x)                                      |
+|[`⎮`](std::ops::BitOr)|    `x⎮y`                     | alternation (x or y, prefer x)                                      |
 |[`!`](std::ops::Not)  |`\d->\D`, `[xy]->[^xy]`, etc. | negation (works on any character class, or literal strings of text).|
 
 ## Empty matches

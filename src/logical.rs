@@ -1,6 +1,7 @@
 //! Functions for performing logical operations
 
 use super::humanregex::*;
+use crate::{any, exactly, none, text, zero_or_one};
 use std::{marker::PhantomData as pd, ops::BitOr};
 
 /// A function for establishing an OR relationship between two or more possible matches.
@@ -20,7 +21,7 @@ pub fn or<T>(expressions: &[HumanRegex<T>]) -> HumanRegex<SymbolChain> {
     for expression in expressions.iter().skip(1) {
         regex_string = format!("{}|{}", regex_string, expression.to_string())
     }
-    HumanRegex(format!("(:?{})", regex_string), pd::<SymbolChain>)
+    HumanRegex(format!("(?:{})", regex_string), pd::<SymbolChain>)
 }
 
 /// Binary OR on any two expressions.
@@ -36,7 +37,7 @@ pub fn or<T>(expressions: &[HumanRegex<T>]) -> HumanRegex<SymbolChain> {
 impl<T, U> BitOr<HumanRegex<U>> for HumanRegex<T> {
     type Output = HumanRegex<SymbolChain>;
     fn bitor(self, rhs: HumanRegex<U>) -> Self::Output {
-        HumanRegex(format!("(:?{}|{})", self, rhs), pd::<SymbolChain>)
+        HumanRegex(format!("(?:{}|{})", self, rhs), pd::<SymbolChain>)
     }
 }
 
@@ -62,8 +63,8 @@ pub fn xor<T, U>(
 
 /// A function for establishing an AND relationship between two or more possible matches
 /// ```
-/// use human_regex::{and, within_range, within_set};
-/// let regex_string = and(within_range('a'..='y'),within_set(&['x','y','z']));
+/// use human_regex::{and, within_range, within_set, text};
+/// let regex_string = and(within_range('a'..='y'),within_set(&[text("xyz")]));
 /// println!("{}", regex_string);
 /// assert!(regex_string.to_regex().is_match("x"));
 /// assert!(regex_string.to_regex().is_match("y"));
@@ -78,8 +79,8 @@ pub fn and<T, U>(
 
 /// See [and]
 /// ```
-/// use human_regex::{and, within_range, within_set};
-/// let regex_string = (within_range('a'..='y') & within_set(&['x','y','z']));
+/// use human_regex::{and, within_range, within_set, text};
+/// let regex_string = (within_range('a'..='y') & within_set(&[text("xyz")]));
 /// println!("{}", regex_string);
 /// assert!(regex_string.to_regex().is_match("x"));
 /// assert!(regex_string.to_regex().is_match("y"));
@@ -98,8 +99,8 @@ impl<T, U> std::ops::BitAnd<HumanRegex<SymbolClass<U>>> for HumanRegex<SymbolCla
 
 /// Removes the characters in the second character class from the characters in the first
 /// ```
-/// use human_regex::{subtract, within_range, within_set};
-/// let regex_string = subtract(within_range('0'..='9'), within_set(&['4']));
+/// use human_regex::{subtract, within_range, within_set, text};
+/// let regex_string = subtract(within_range('0'..='9'), within_set(&[text('4')]));
 /// println!("{}", regex_string);
 /// assert!(regex_string.to_regex().is_match("3"));
 /// assert!(regex_string.to_regex().is_match("9"));
@@ -118,14 +119,17 @@ pub fn subtract<T, U>(
 /// Negation for standard symbol classes.
 /// ```
 /// use human_regex::{digit};
-/// assert_eq!(digit().to_string().replace(r"\d",r"\D"), r"\D");
+/// assert_eq!((!digit()).to_string(), r"\D");
 /// ```
 impl std::ops::Not for HumanRegex<SymbolClass<Standard>> {
     type Output = Self;
 
     fn not(self) -> Self::Output {
-        if self.to_string().len() < 2 {
-            return self;
+        if self.to_string() == any().to_string() {
+            return none();
+        }
+        if self.to_string() == none().to_string() {
+            return any();
         }
         if self
             .to_string()
@@ -157,6 +161,12 @@ impl std::ops::Not for HumanRegex<SymbolClass<Standard>> {
     }
 }
 
+/// Negation for custom symbol classes.
+/// ```
+/// use human_regex::{digit};
+///
+/// assert_eq!((!digit()).to_string(), r"\D");
+/// ```
 impl std::ops::Not for HumanRegex<SymbolClass<Custom>> {
     type Output = Self;
 
@@ -181,6 +191,12 @@ impl std::ops::Not for HumanRegex<SymbolClass<Custom>> {
     }
 }
 
+/// Negation for ASCII symbol classes.
+/// ```
+/// use human_regex::{punctuation};
+///
+/// assert_eq!((!punctuation()).to_string(), r"[[:^punct:]]");
+/// ```
 impl std::ops::Not for HumanRegex<SymbolClass<Ascii>> {
     type Output = Self;
 
@@ -205,14 +221,21 @@ impl std::ops::Not for HumanRegex<SymbolClass<Ascii>> {
     }
 }
 
+/// Negation for literal text.
+/// ```
+/// use human_regex::{text};
+///
+/// assert_eq!((!text(r"&\abc")).to_string(), r"[^\&][^\\][^a][^b][^c]");
+/// ```
 impl std::ops::Not for HumanRegex<LiteralSymbolChain> {
     type Output = HumanRegex<SymbolChain>;
 
     fn not(self) -> Self::Output {
         HumanRegex(
-            self.to_string()
-                .chars()
-                .map(|chr| format!("[^{}]", chr))
+            (zero_or_one(text(r"\")) + exactly(1, any()))
+                .to_regex()
+                .captures_iter(&self.to_string())
+                .map(|x| format!("[^{}]", &x[0]))
                 .collect::<String>(),
             pd::<SymbolChain>,
         )

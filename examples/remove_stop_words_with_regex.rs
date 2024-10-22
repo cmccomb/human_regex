@@ -33,7 +33,6 @@ fn main() {
         + exactly(1, or(&escape_all(&clean_words)))
         + word_boundary()
         + one_or_more(whitespace());
-    println!("{}", regex_for_stop_words.to_regex());
     // Remove stop words
     let clean_text = regex_for_stop_words
         .to_regex()

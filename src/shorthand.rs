@@ -14,6 +14,19 @@ pub fn any() -> HumanRegex<SymbolClass<Standard>> {
     HumanRegex(r".".to_string(), pd::<SymbolClass<Standard>>)
 }
 
+/// A function for matching nothing, if you're into that sort of thing
+/// ```
+/// use human_regex::{none};
+/// let regex_string = none();
+/// assert!(!regex_string.to_regex().is_match("literally anything!"));
+/// ```
+pub fn none() -> HumanRegex<SymbolClass<Standard>> {
+    // This says to match the absolute end of the text and then two more characters after that.
+    // Taken from here: https://stackoverflow.com/a/941007/5156525
+    // The two any's guarantees protection against quantifiers as well!
+    HumanRegex(r"\z..".to_string(), pd::<SymbolClass<Standard>>)
+}
+
 /// A function for the digit character class (i.e., the digits 0 through 9)
 /// ```
 /// use human_regex::{beginning, end, one_or_more, digit};
@@ -97,18 +110,17 @@ pub fn without_range(range: std::ops::RangeInclusive<char>) -> HumanRegex<Symbol
     )
 }
 
-/// Matches anything within a specified set of characters
+/// Matches anything within a specified set of characters. Works with a collection of `text()` or with `escape_all()`.
 /// ```
-/// use human_regex::{text,within_set};
-/// let regex_string = text("gr") + within_set(&['a','e']) + text("y");
+/// use human_regex::{text, within_set, escape_all};
+/// let regex_string = text("gr") + within_set(&[text("ae")]) + text("y");
+/// let regex_string_multiple = text("gr") + within_set(&[text("a"),text("e")]) + text("y");
+/// let regex_string_multiple = text("gr") + within_set(&escape_all(&["a","e"])) + text("y");
 /// assert!(regex_string.to_regex().is_match("gray"));
 /// assert!(regex_string.to_regex().is_match("grey"));
 /// assert!(!regex_string.to_regex().is_match("groy"));
 /// ```
-pub fn within_set<T>(set: &[T]) -> HumanRegex<SymbolClass<Custom>>
-where
-    T: Into<String> + fmt::Display,
-{
+pub fn within_set(set: &[HumanRegex<LiteralSymbolChain>]) -> HumanRegex<SymbolClass<Custom>> {
     HumanRegex(
         format!(
             "[{}]",
@@ -118,17 +130,18 @@ where
     )
 }
 
-/// Matches anything outside a specified set of characters
+/// Matches anything outside of a specified set of characters. Works with a collection of `text()` or with `escape_all()`.
 /// ```
-/// use human_regex::{text,without_set};
-/// let regex_string = text("gr") + without_set(&['a','e']) + text("y");
+/// use human_regex::{text, without_set, escape_all};
+/// let regex_string = text("gr") + without_set(&[text("ae")]) + text("y");
+/// let regex_string_multiple = text("gr") + without_set(&[text("a"),text("e")]) + text("y");
+/// let regex_string_multiple = text("gr") + without_set(&escape_all(&["a","e"])) + text("y");
 /// assert!(regex_string.to_regex().is_match("groy"));
 /// assert!(!regex_string.to_regex().is_match("gray"));
 /// assert!(!regex_string.to_regex().is_match("grey"));
 /// ```
-pub fn without_set<T>(set: &[T]) -> HumanRegex<SymbolClass<Custom>>
+pub fn without_set(set: &[HumanRegex<LiteralSymbolChain>]) -> HumanRegex<SymbolClass<Custom>>
 where
-    T: Into<String> + fmt::Display,
 {
     HumanRegex(
         format!(

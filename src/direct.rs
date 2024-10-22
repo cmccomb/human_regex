@@ -14,10 +14,7 @@ pub fn text<T>(text: T) -> HumanRegex<LiteralSymbolChain>
 where
     T: Into<String> + fmt::Display,
 {
-    HumanRegex(
-        format!("(?:{})", escape(&text.to_string())),
-        pd::<LiteralSymbolChain>,
-    )
+    HumanRegex(escape(&text.to_string()), pd::<LiteralSymbolChain>)
 }
 
 /// Escapes an entire collection of text for use in something like an [or](super::logical::or)
