@@ -164,7 +164,7 @@ The system is built upon a thin hierarchy of states using the Typestate pattern.
 which signifies an arbitrary expression with no other guarantees than that it is valid regex. Any operation that removes
 guarantees about the actual expression contained within the [`HumanRegex`] struct usually promotes it to this state.  
 
-There are also a state `SymbolClass<T>` signifying that the expression is a matcher for a class of symbols. The three substates
+There is also a state `SymbolClass<T>` signifying that the expression is a matcher for a class of symbols. The three substates
 of this are `Standard`, `Custom`, and `ASCII`. Standard and ASCII represent built-in symbol class types. When these built-in
 class types get mixed together, such as through use of any of the [`set operations`](logical), they get promoted to the `Custom`
 subtype.  

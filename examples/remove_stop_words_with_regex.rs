@@ -1,4 +1,6 @@
-use human_regex::{escape_all, exactly, one_or_more, or, punctuation, whitespace, word_boundary};
+use human_regex::{
+    escape_all, exactly, one_or_more, or, punctuation, text, whitespace, word_boundary,
+};
 use stop_words::{get, LANGUAGE};
 
 fn main() {
@@ -11,6 +13,14 @@ fn main() {
     // Get the stopwords
     let words = get(LANGUAGE::English);
 
+    // Stop words came in with unwanted quotes around them
+    let cleanup_regex = text(r#"""#).to_regex();
+    let clean_words: Vec<String> = words
+        .into_iter()
+        .map(|x| cleanup_regex.replace_all(&x, "").into_owned())
+        .collect();
+    println!("{:#?}", clean_words);
+
     // Remove punctuation and lowercase the text to make parsing easier
     let lowercase_doc = document.to_ascii_lowercase();
     let regex_for_punctuation = one_or_more(punctuation());
@@ -20,10 +30,10 @@ fn main() {
 
     // Make a regex to match stopwords with trailing spaces and punctuation
     let regex_for_stop_words = word_boundary()
-        + exactly(1, or(&escape_all(&words)))
+        + exactly(1, or(&escape_all(&clean_words)))
         + word_boundary()
         + one_or_more(whitespace());
-
+    println!("{}", regex_for_stop_words.to_regex());
     // Remove stop words
     let clean_text = regex_for_stop_words
         .to_regex()

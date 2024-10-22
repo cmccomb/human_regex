@@ -11,8 +11,14 @@ fn main() {
         + end();
 
     // Build the second match pattern
-    let regex_string_2 =
-        beginning() + exactly(4, digit()) + exactly(2, text("-") + exactly(2, digit())) + end();
+    #[rustfmt::skip]
+    let regex_string_2 = beginning() 
+        + exactly(4, digit()) 
+        + exactly(
+            2, 
+            text("-") + exactly(2, digit())
+        ) 
+        + end();
 
     // Check the match
     println!("{}", regex_string_1.to_regex().is_match("2014-01-01"));
