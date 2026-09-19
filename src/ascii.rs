@@ -177,7 +177,7 @@ pub fn non_hexdigit() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:^xdigit:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
-/// A function to match any ascii digit (`[\x00-\x7F]`)
+/// A function to match any ASCII character (`[\x00-\x7F]`)
 /// ```
 /// use std::ops::Not;
 /// let regex_string = human_regex::ascii();
@@ -194,7 +194,7 @@ pub fn ascii() -> HumanRegex<SymbolClass<Ascii>> {
     HumanRegex(r"[[:ascii:]]".to_string(), pd::<SymbolClass<Ascii>>)
 }
 
-/// A function to match any non-ascii digit (`[^\x00-\x7F]`)
+/// A function to match any non-ASCII character (`[^\x00-\x7F]`)
 /// ```
 /// use std::ops::Not;
 /// let regex_string = human_regex::non_ascii();
