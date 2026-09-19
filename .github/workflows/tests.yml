@@ -2,9 +2,9 @@ name: tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, 'release/0.3' ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, 'release/0.3' ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -15,8 +15,15 @@ jobs:
     strategy:
         matrix:
             os: [ubuntu-latest, windows-latest, macos-latest]
+            regex: [latest]
+            include:
+              - os: ubuntu-latest
+                regex: '1.7.1'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
+    - name: Select minimum regex version
+      if: matrix.regex != 'latest'
+      run: cargo update -p regex --precise "${{ matrix.regex }}"
     - name: Build
       run: cargo build --verbose
     - name: Run tests

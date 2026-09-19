@@ -4,6 +4,9 @@ use super::humanregex::*;
 use std::marker::PhantomData as pd;
 
 /// A function for establishing an OR relationship between two or more possible matches
+///
+/// Does not create a capture group. Use [`crate::capture`] or [`crate::named_capture`]
+/// to capture the selected alternative explicitly.
 /// ```
 /// use human_regex::{text, logical::or};
 /// let regex_string = text("gr") + or(&[text("a"), text("e")]) + text("y");
@@ -20,10 +23,10 @@ where
     for idx in 1..options.len() {
         regex_string = format!("{}|{}", regex_string, options[idx].to_string())
     }
-    HumanRegex(format!("(:?{})", regex_string), pd::<SymbolChain>)
+    HumanRegex(format!("(?:{})", regex_string), pd::<SymbolChain>)
 }
 
-/// Xor on two [SymbolClass]es, also known as symmetric difference.
+/// Xor on two character classes, also known as symmetric difference.
 ///
 /// ```
 /// use human_regex::{xor, within_range};
@@ -44,6 +47,8 @@ pub fn xor<T, U>(
 }
 
 /// A function for establishing an AND relationship between two or more possible matches
+///
+/// Does not create a capture group.
 /// ```
 /// use human_regex::{and, within_range, within_set};
 /// let regex_string = and(within_range('a'..='y'),within_set(&['x','y','z']));
