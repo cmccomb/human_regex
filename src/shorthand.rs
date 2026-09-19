@@ -13,7 +13,8 @@ pub fn any() -> HumanRegex {
     HumanRegex(r".".to_string())
 }
 
-/// A function for the digit character class (i.e., the digits 0 through 9)
+/// A function for the Unicode decimal-digit character class (`\d`, or `\p{Nd}`).
+/// Use `within('0'..='9')` to match ASCII digits only.
 /// ```
 /// use human_regex::{beginning, end, one_or_more, digit};
 /// let regex_string = beginning() + one_or_more(digit()) + end();
@@ -24,7 +25,7 @@ pub fn digit() -> HumanRegex {
     HumanRegex(r"\d".to_string())
 }
 
-/// A function for the non-digit character class (i.e., everything BUT the digits 0-9)
+/// A function for the complement of the Unicode decimal-digit character class (`\D`).
 /// ```
 /// use human_regex::{beginning, end, one_or_more, non_digit};
 /// let regex_string = beginning() + one_or_more(non_digit()) + end();
@@ -35,17 +36,19 @@ pub fn non_digit() -> HumanRegex {
     HumanRegex(r"\D".to_string())
 }
 
-/// A function for the word character class (i.e., all alphanumeric characters plus underscore)
+/// A function for the Unicode word character class (`\w`), including letters,
+/// marks, decimal digits, connector punctuation, and join controls.
 pub fn word() -> HumanRegex {
     HumanRegex(r"\w".to_string())
 }
 
-/// A function for the non-word character class (i.e., everything BUT the alphanumeric characters plus underscore)
+/// A function for the complement of the Unicode word character class (`\W`).
 pub fn non_word() -> HumanRegex {
     HumanRegex(r"\W".to_string())
 }
 
-/// A constant for the whitespace character class (i.e., space and tab)
+/// A function for the Unicode whitespace character class (`\s`), including
+/// spaces, tabs, newlines, and other Unicode whitespace.
 /// ```
 /// use human_regex::{one_or_more, text, whitespace};
 /// let regex_string = text("at") + one_or_more(whitespace()) + text("least");
@@ -57,7 +60,7 @@ pub fn whitespace() -> HumanRegex {
     HumanRegex(r"\s".to_string())
 }
 
-/// A function for the whitespace character class (i.e., everything BUT space and tab)
+/// A function for the complement of the Unicode whitespace character class (`\S`).
 /// ```
 /// use human_regex::{beginning, end, one_or_more, non_whitespace};
 /// let regex_string = beginning() + one_or_more(non_whitespace()) + end();
@@ -70,6 +73,8 @@ pub fn non_whitespace() -> HumanRegex {
 }
 
 /// Matches anything within a range of characters
+///
+/// Both endpoints are literal characters and are automatically escaped.
 ///```
 /// use human_regex::{beginning, end, within};
 /// let regex_string = beginning() + within('a'..='d') + end();
@@ -78,9 +83,15 @@ pub fn non_whitespace() -> HumanRegex {
 /// assert!(!regex_string.to_regex().is_match("h"));
 ///```
 pub fn within(range: std::ops::RangeInclusive<char>) -> HumanRegex {
-    HumanRegex(format!("[{}-{}]", range.start(), range.end()))
+    HumanRegex(format!(
+        "[{}-{}]",
+        regex::escape(&range.start().to_string()),
+        regex::escape(&range.end().to_string())
+    ))
 }
 /// Matches anything outside of a range of characters
+///
+/// Both endpoints are literal characters and are automatically escaped.
 ///```
 /// use human_regex::{beginning, end, without};
 /// let regex_string = beginning() + without('a'..='d') + end();
@@ -89,7 +100,11 @@ pub fn within(range: std::ops::RangeInclusive<char>) -> HumanRegex {
 /// assert!(!regex_string.to_regex().is_match("c"));
 ///```
 pub fn without(range: std::ops::RangeInclusive<char>) -> HumanRegex {
-    HumanRegex(format!("[^{}-{}]", range.start(), range.end()))
+    HumanRegex(format!(
+        "[^{}-{}]",
+        regex::escape(&range.start().to_string()),
+        regex::escape(&range.end().to_string())
+    ))
 }
 
 /// An enum covering all Unicode character categories

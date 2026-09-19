@@ -16,13 +16,16 @@ where
     HumanRegex(format!("(?:{})", escape(&*text.to_string())))
 }
 
-/// Escapes an entire list for use in something like an [or] or an [and] expression.
+/// Escapes every regex metacharacter in a list of literal strings.
 ///
-/// See the [cookbook] stop words example for an example of the utility of this function.
+/// The results can be used in an [`or`](crate::or) expression without interpreting
+/// punctuation or backslashes as regex syntax. See the [cookbook](crate::cookbook)
+/// stop words example for another use.
 /// ```
 /// use human_regex::direct::escape_all;
 /// let escaped_vec = escape_all(&vec!["et-al", "short-term", "full-scale"]);
 /// assert_eq!(escaped_vec, vec![r"et\-al", r"short\-term", r"full\-scale"]);
+/// assert_eq!(escape_all(&["a.b", "c+d", r"\d"]), vec![r"a\.b", r"c\+d", r"\\d"]);
 ///```
 pub fn escape_all<T>(options: &[T]) -> Vec<String>
 where
@@ -30,15 +33,7 @@ where
 {
     options
         .iter()
-        .map(|string| {
-            string
-                .to_string()
-                .replace("-", r"\-")
-                .replace("[", r"\[")
-                .replace("]", r"\]")
-                .replace("{", r"\{")
-                .replace("}", r"\}")
-        })
+        .map(|string| escape(&string.to_string()))
         .collect()
 }
 

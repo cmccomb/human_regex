@@ -4,6 +4,9 @@ use super::humanregex::HumanRegex;
 use std::fmt;
 
 /// A function for establishing an OR relationship between two or more possible matches
+///
+/// Does not create a capture group. Use [`crate::capture`] or [`crate::named_capture`]
+/// to capture the selected alternative explicitly.
 /// ```
 /// use human_regex::{text, logical::or};
 /// let regex_string = text("gr") + or(&[text("a"), text("e")]) + text("y");
@@ -20,7 +23,7 @@ where
     for idx in 1..options.len() {
         regex_string = format!("{}|{}", regex_string, options[idx].to_string())
     }
-    HumanRegex(format!("(:?{})", regex_string))
+    HumanRegex(format!("(?:{})", regex_string))
 }
 
 /// Negated [or] relationship between two or more possible matches
@@ -41,7 +44,7 @@ where
 
 /// Xor on two bracketed expressions, also known as symmetric difference.
 ///
-/// If you would like to use ranges, collect them into a Vec<T>.
+/// If you would like to use ranges, collect them into a `Vec<T>`.
 /// ```
 /// use human_regex::xor;
 /// let regex_string = xor(&('a'..='g').collect::<Vec<char>>(), &('b'..='h').collect::<Vec<char>>());
@@ -63,6 +66,8 @@ where
 }
 
 /// A function for establishing an AND relationship between two or more possible matches
+///
+/// Does not create a capture group.
 /// ```
 /// use human_regex::{text, and, or, within};
 /// let regex_string = and(&vec![within('a'..='y'),or(&['x','y','z'])]);
@@ -79,7 +84,7 @@ where
     for idx in 1..options.len() {
         regex_string = format!("[{}&&{}]", regex_string, options[idx].to_string())
     }
-    HumanRegex(format!("(:?{})", regex_string))
+    HumanRegex(format!("(?:{})", regex_string))
 }
 
 /// Allows the use of `&` as a syntax sugar for [and]
@@ -101,7 +106,7 @@ impl std::ops::BitAnd for HumanRegex {
 
 /// Subtracts the second argument from the first
 ///
-/// If you would like to use ranges, collect them into a Vec<T>.
+/// If you would like to use ranges, collect them into a `Vec<T>`.
 /// ```
 /// use human_regex::subtract;
 /// let regex_string = subtract(&('0'..='9').collect::<Vec<char>>(), &['4']);
